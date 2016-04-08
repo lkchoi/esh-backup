@@ -13,7 +13,7 @@
     <div id="wrapper">
         <div id="page-wrapper" class="gray-bg">
             <div class="row border-bottom white-bg">
-                <nav class="navbar navbar-static-top" role="navigation">
+                <nav class="navbar navbar-static-top container" role="navigation">
                     <div class="navbar-header">
                         <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
                             <i class="fa fa-reorder"></i>
@@ -55,6 +55,7 @@
                             </li>
                         </ul>
                         <ul class="nav navbar-top-links navbar-right">
+                            @if (Auth::guest())
                             <li class="active">
                                 <a href="/register" class="text-lg">
                                     Register
@@ -65,13 +66,25 @@
                                     Log In
                                 </a>
                             </li>
+                            @else
+                            <li class="dropdown">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    {{ Auth::user()->username }}
+                                    <span class="caret"></span>
+                                </a>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li><a href="/logout">Logout</a></li>
+                                </ul>
+                            </li>
+                            @endif
                         </ul>
                     </div>
                 </nav>
             </div>
             <div class="wrapper wrapper-content">
-                @yield('content')
-                <!-- <div class="container"> </div> -->
+                <div class="container">
+                    @yield('content')
+                </div>
             </div>
             <div class="footer">
                 <div class="pull-right">
