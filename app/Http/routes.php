@@ -11,12 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
-
-Route::resource('users', 'UsersController');
-
+Route::get('/', ['uses' => 'HomeController@index']);
 Route::auth();
-
 Route::get('/home', 'HomeController@index');
+Route::resource('users', 'UsersController');
