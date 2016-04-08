@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('layouts.default');
+    return view('home');
 });
 
 Route::resource('users', 'UsersController');
