@@ -11,6 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('layouts.default');
-});
+Route::get('/', ['uses' => 'HomeController@index']);
+Route::auth();
+Route::get('/home', 'HomeController@index');
+Route::resource('users', 'UsersController');
