@@ -13,36 +13,44 @@
         <tr>
             {{-- game --}}
             <td>
-                <img src="{{ $match->game->logo }}" style="height:30px;">
+                <img class="game-icon" src="{{ $match->game->logo }}">
             </td>
 
             {{-- gamers --}}
             <td class="text-right">
-                {{ $match->getPlayer(0)->user->username }}
+                {{-- 
+                @if ($match->winner->result)
+                    <i class="fa fa-star"></i>
+                @endif
+                 --}}
+                {{ $match->winner->user->username }}
                 <div>
-                    <img src="{{ $match->getPlayer(0)->character->image->url }}" style="height:45px;">
+                    <img
+                    class="character-icon" 
+                    src="{{ $match->winner->character->image->url }}"
+                    alt="{{ $match->winner->character->name }}"
+                    title="{{ $match->winner->character->name }}"
+                    >
                 </div>
-                {{--
-                <div>
-                    <small class="text-muted">
-                        ({{ $match->getPlayer(0)->character->name }})
-                    </small>
-                </div>
-                --}}
             </td>
-            <td style="width:4px;">vs</td>
+            <td class="versus">
+                def.
+            </td>
             <td>
-                {{ $match->getPlayer(1)->user->username }}
+                {{-- 
+                @if ($match->loser->result)
+                    <i class="fa fa-star"></i>
+                @endif
+                 --}}
+                {{ $match->loser->user->username }}
                 <div>
-                    <img src="{{ $match->getPlayer(1)->character->image->url }}" style="height:45px;">
+                    <img
+                    class="character-icon"
+                    src="{{ $match->loser->character->image->url }}"
+                    alt="{{ $match->loser->character->name }}"
+                    title="{{ $match->loser->character->name }}"
+                    >
                 </div>
-                {{--
-                <div>
-                    <small class="text-muted">
-                        ({{ $match->getPlayer(1)->character->name }})
-                    </small>
-                </div>
-                --}}
             </td>
 
             {{-- payout --}}
@@ -51,4 +59,19 @@
     @endforeach
     </tbody>
 </table>
+@stop
+
+@section('tail')
+<style type="text/css">
+.game-icon {
+    height:30px;
+}
+.character-icon {
+    height: 45px;
+}
+.versus {
+    width: 5px;
+    white-space: nowrap;
+}
+</style>
 @stop
