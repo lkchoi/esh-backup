@@ -23,7 +23,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 $factory->define(App\Match::class, function (Faker\Generator $faker) {
     return [
         'game_id' => 1,
-        'payout' => $faker->randomElement([200,500,10000])
+        'payout' => $faker->randomElement([200,500,1000])
     ];
 });
 

@@ -53,12 +53,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
-        if ($user)
-        {
-            return view('users.show', compact('user'));
-        }
-        return redirect('/');
+        // 
     }
 
     /**

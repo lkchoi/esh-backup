@@ -25,4 +25,9 @@ class Character extends Model
             'character_id'
         );
     }
+
+    public function image()
+    {
+        return $this->morphOne('App\Image', 'imageable');
+    }
 }

@@ -15,3 +15,9 @@ Route::get('/', ['uses' => 'HomeController@index']);
 Route::auth();
 Route::get('/home', 'HomeController@index');
 Route::resource('users', 'UsersController');
+
+Route::resource('matches', 'MatchesController', ['only' => ['index','show']]);
+
+Route::group(['middleware' => 'auth:web'], function () {
+    Route::resource('matches', 'MatchesController', ['except' => ['index', 'show']]);
+});

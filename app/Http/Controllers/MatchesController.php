@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Http\Requests;
+use App\Match;
+use Illuminate\Http\Request;
 
 class MatchesController extends Controller
 {
@@ -15,7 +15,8 @@ class MatchesController extends Controller
      */
     public function index()
     {
-        //
+        $matches = Match::paginate();
+        return view('matches.index', compact('matches'));
     }
 
     /**
@@ -25,7 +26,7 @@ class MatchesController extends Controller
      */
     public function create()
     {
-        //
+        return view('matches.create');
     }
 
     /**

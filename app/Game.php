@@ -30,4 +30,14 @@ class Game extends Model
             'game_id'
         );
     }
+
+    public function getLogoAttribute()
+    {
+        return $this->images()->first()->url;
+    }
+
+    public function images()
+    {
+        return $this->morphMany('App\Image', 'imageable');
+    }
 }

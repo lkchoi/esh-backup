@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -37,5 +38,13 @@ class User extends Authenticatable
             'App\Role',
             'user_id'
         );
+    }
+
+    public function getMatchesAttribute()
+    {
+        return DB::table('users')
+             ->join('roles', 'users.id', '=', 'roles.user_id')
+             ->join('matches', 'matches.id', '=', 'roles.match_id')
+             ->get();
     }
 }
