@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Match;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,6 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $matches = Match::with(['game', 'roles.user'])
+            ->orderBy('created_at','desc')
+            ->paginate();
+        return view('home', compact('matches'));
     }
 }

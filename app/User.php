@@ -30,4 +30,12 @@ class User extends Authenticatable
         'remember_token',
         'updated_at'
     ];
+
+    public function roles()
+    {
+        return $this->hasMany(
+            'App\Role',
+            'user_id'
+        );
+    }
 }
