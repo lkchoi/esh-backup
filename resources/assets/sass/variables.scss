@@ -10,10 +10,11 @@ $yellow: #f8ac59;         // Warrning color
 $red: #ed5565;            // Danger color
 
 // Various colors
-$text-color: #676a6c;           // Body text
-$gray: #f3f3f4;                 // Background wrapper color
+$text-color: #ddd;           // Body text
+$gray: #111;                 // Background wrapper color
 $light-gray: #d1dade;           // Default label, badget
 $label-badget-color: #5e5e5e;
+$border-color: #000;
 
 // IBOX colors ( default panel colors)
 $border-color: #e7eaec;   // IBox border
@@ -30,7 +31,21 @@ $boxed-backgound: url("patterns/shattered.png");
 //Border radius for buttons
 $btn-border-radius: 3px;
 
-//Navigation
+// Navigation
 $nav-bg: #2f4050;
 $nav-profil-pattern: url("patterns/header-profile.png") no-repeat;
 $nav-text-color: #a7b1c2;
+$top-nav-bg: #000;
+$top-nav-li-hover-bg: #222;
+
+// Footer
+$footer-bg: #000;
+
+// Table
+$table-bg-accent: #222; // Background for `.table-striped`.
+$table-border-color: #000 !important;
+
+
+// Dropdowns
+$dropdown-bg: #222;
+$dropdown-border: #000 !important;

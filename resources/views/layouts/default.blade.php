@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESPORTS HERO</title>
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    {{-- <link href="/css/bootstrap.min.css" rel="stylesheet"> --}}
     <link href="/font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="/css/animate.css" rel="stylesheet">
     {{-- <link href="/css/style.css" rel="stylesheet"> --}}
@@ -14,13 +14,15 @@
 <body class="top-navigation">
     <div id="wrapper">
         <div id="page-wrapper" class="gray-bg">
-            <div class="row border-bottom white-bg">
+            <div class="row">
                 <nav class="navbar navbar-static-top container" role="navigation">
                     <div class="navbar-header">
                         <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
                             <i class="fa fa-reorder"></i>
                         </button>
-                        <a href="/" class="navbar-brand">ESPORTS HERO</a>
+                        <a href="/" class="navbar-brand">
+                            <img src="/img/logo-359x70.png" alt="ESPORTS HERO">
+                        </a>
                     </div>
                     <div class="navbar-collapse collapse" id="navbar">
                         <ul class="nav navbar-nav">
