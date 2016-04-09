@@ -29,9 +29,20 @@ class Match extends Model
         );
     }
 
-    public function getPlayer($offset = 0)
+    public function winner()
     {
-        return $this->roles()->offset($offset)->first();
+        return $this->hasOne(
+            'App\Role',
+            'match_id'
+        )->where('result', '=', 1);
+    }
+
+    public function loser()
+    {
+        return $this->hasOne(
+            'App\Role',
+            'match_id'
+        )->where('result', '=', 0);
     }
 
     public function getAmountAttribute()
