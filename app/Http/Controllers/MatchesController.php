@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Http\Requests\UsersCreateRequest;
-use App\User;
+use App\Match;
 use Illuminate\Http\Request;
 
-class UsersController extends Controller
+class MatchesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +15,8 @@ class UsersController extends Controller
      */
     public function index()
     {
-        //
+        $matches = Match::paginate();
+        return view('matches.index', compact('matches'));
     }
 
     /**
@@ -26,7 +26,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        return view('matches.create');
     }
 
     /**
@@ -35,14 +35,9 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UsersCreateRequest $request)
+    public function store(Request $request)
     {
-        $user = User::create($request->all());
-        if ($user)
-        {
-            return redirect('/');
-        }
-        return back();
+        //
     }
 
     /**
@@ -53,7 +48,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        // 
+        //
     }
 
     /**
