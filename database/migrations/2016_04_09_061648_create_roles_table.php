@@ -17,7 +17,7 @@ class CreateRolesTable extends Migration
 
             $table->integer('match_id')->unsigned();
             $table->integer('user_id')->unsigned();
-            $table->integer('character_id')->unsigned();
+            $table->integer('character_id')->unsigned()->nullable();
             $table->integer('result')->unsigned();
             
             $table->timestamps();
