@@ -2,22 +2,21 @@
 $font-stack: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
 // Basic Colors
-$navy: #1ab394;           // Primary color
-$dark-gray: #c2c2c2;      // Default color
-$blue: #1c84c6;           // Success color
-$lazur: #23c6c8;          // Info color
-$yellow: #f8ac59;         // Warrning color
-$red: #ed5565;            // Danger color
+$navy: hsla(212,100%,56%,1); // Primary color
+$dark-gray: #c2c2c2;         // Default color
+$blue: #1c84c6;              // Success color
+$lazur: #23c6c8;             // Info color
+$yellow: #f8ac59;            // Warrning color
+$red: #ed5565;               // Danger color
 
 // Various colors
 $text-color: #ddd;           // Body text
 $gray: #111;                 // Background wrapper color
 $light-gray: #d1dade;           // Default label, badget
 $label-badget-color: #5e5e5e;
-$border-color: #000;
 
 // IBOX colors ( default panel colors)
-$border-color: #e7eaec;   // IBox border
+$border-color: #000;   // IBox border
 $ibox-title-bg: white;    // IBox Background header
 $ibox-content-bg: white;  // IBox Background content
 
@@ -49,3 +48,7 @@ $table-border-color: #000 !important;
 // Dropdowns
 $dropdown-bg: #222;
 $dropdown-border: #000 !important;
+
+// iBoxes
+$ibox-title-bg: #000;
+$ibox-content-bg: #090909;
