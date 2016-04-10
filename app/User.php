@@ -6,12 +6,25 @@ use App\Match;
 use App\Role;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
+use App\Repositories\HasRepositories;
 
 class User extends Authenticatable
 {
     /**
+     * Apply traits.
+     */
+    use HasRepositories;
+
+    /**
+     * Attached repositories
+     * @var array
+     */
+    protected $repos = [
+        'App\Repositories\UserRepository',
+    ];
+
+    /**
      * The attributes that are mass assignable.
-     *
      * @var array
      */
     protected $fillable = [
@@ -22,7 +35,6 @@ class User extends Authenticatable
 
     /**
      * The attributes that should be hidden for arrays.
-     *
      * @var array
      */
     protected $hidden = [
@@ -35,7 +47,6 @@ class User extends Authenticatable
 
     /**
      * Relation: User has many roles
-     * 
      * @return Illuminate\Database\Eloquent\Relations\Relation
      */
     public function roles()
@@ -48,7 +59,6 @@ class User extends Authenticatable
 
     /**
      * Pseudo-Relation: User has many Matches through Roles
-     * 
      * @return Illuminate\Database\Eloquent\Relations\Relation
      */
     public function matches()
@@ -63,7 +73,6 @@ class User extends Authenticatable
 
     /**
      * Pseudo-Relation: User has many wins (Roles)
-     * 
      * @return Illuminate\Support\Collection
      */
     public function wins()
@@ -77,7 +86,6 @@ class User extends Authenticatable
 
     /**
      * Pseudo-Relation: User has many losses (Roles)
-     * 
      * @return Illuminate\Support\Collection
      */
     public function losses()
@@ -91,7 +99,6 @@ class User extends Authenticatable
 
     /**
      * User's total earnings
-     * 
      * @return integer  total earnings
      */
     public function earnings()
@@ -101,9 +108,9 @@ class User extends Authenticatable
             ->sum('matches.payout');
     }
 
+
     /**
      * Get leaders
-     * 
      * @return Illuminate\Database\Query\Builder
      */
     public static function leaders()

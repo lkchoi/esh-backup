@@ -16,9 +16,7 @@
             <td> {{ $user->username }} </td>
             <td> {{ $user->win_count }} </td>
             <td> {{ $user->loss_count }} </td>
-            <td>
-                {{ sprintf('%.3f', $user->win_ratio) }}
-            </td>
+            <td> {{ sprintf('%.3f', $user->win_ratio) }} </td>
             <td> {{ sprintf('$%.2f', $user->earnings/100) }} </td>
         </tr>
     @endforeach
