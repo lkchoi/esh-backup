@@ -7,13 +7,13 @@
 }
 
 .top-navigation .navbar-nav .dropdown-menu > .active > a {
-  background: white;
+  background: $top-nav-bg;
   color: $navy;
   font-weight: bold;
 }
 
 .white-bg .navbar-fixed-top, .white-bg .navbar-static-top {
-  background: #fff;
+  background: $top-nav-bg;
 }
 
 .top-navigation .navbar {
@@ -26,12 +26,12 @@
 }
 
 .top-navigation .nav > li a:hover, .top-navigation .nav > li a:focus {
-  background: #fff;
+  background: $top-nav-li-hover-bg;
   color: $navy;
 }
 
 .top-navigation .nav > li.active {
-  background: #fff;
+  background: $top-nav-li-hover-bg;
   border: none;
 }
 .top-navigation .nav > li.active > a {
@@ -56,9 +56,14 @@
 }
 
 .top-navigation .navbar-brand {
-  background: $navy;
-  color: #fff;
-  padding: 15px 25px;
+  // background: $navy;
+  color: $navy;
+  font-size:2.5em;
+  padding: 10px;
+  // padding: 15px 25px;
+  img {
+    max-height:50px;
+  }
 }
 
 .top-navigation .navbar-top-links li:last-child {

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Role;
 use Illuminate\Database\Eloquent\Model;
 
 class Match extends Model
@@ -34,7 +35,7 @@ class Match extends Model
         return $this->hasOne(
             'App\Role',
             'match_id'
-        )->where('result', '=', 1);
+        )->where('result', '=', Role::RESULT_WIN);
     }
 
     public function loser()
@@ -42,7 +43,7 @@ class Match extends Model
         return $this->hasOne(
             'App\Role',
             'match_id'
-        )->where('result', '=', 0);
+        )->where('result', '=', ROLE::RESULT_LOSS);
     }
 
     public function getAmountAttribute()

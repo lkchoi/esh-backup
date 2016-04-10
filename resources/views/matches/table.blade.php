@@ -1,5 +1,3 @@
-@extends('layouts.default')
-@section('content')
 <table class="table table-striped">
     <thead>
         <tr>
@@ -18,11 +16,6 @@
 
             {{-- gamers --}}
             <td class="text-right">
-                {{-- 
-                @if ($match->winner->result)
-                    <i class="fa fa-star"></i>
-                @endif
-                 --}}
                 {{ $match->winner->user->username }}
                 <div>
                     <img
@@ -37,11 +30,6 @@
                 def.
             </td>
             <td>
-                {{-- 
-                @if ($match->loser->result)
-                    <i class="fa fa-star"></i>
-                @endif
-                 --}}
                 {{ $match->loser->user->username }}
                 <div>
                     <img
@@ -59,12 +47,11 @@
     @endforeach
     </tbody>
 </table>
-@stop
 
 @section('tail')
 <style type="text/css">
 .game-icon {
-    height:30px;
+    max-width:120px;
 }
 .character-icon {
     height: 45px;

@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
+    const RESULT_WIN = 1;
+    const RESULT_LOSS = 0;
+
     protected $fillable = [
         'match_id',
         'user_id',
@@ -35,5 +38,15 @@ class Role extends Model
             'App\User',
             'user_id'
         );
+    }
+
+    public function scopeWon($query)
+    {
+        return $query->where('result', '=', static::RESULT_WIN);
+    }
+
+    public function scopeLost($query)
+    {
+        return $query->where('result', '=', static::RESULT_LOSS);
     }
 }
