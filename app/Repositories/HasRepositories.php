@@ -11,18 +11,6 @@ trait HasRepositories
     protected $_repos;
 
     /**
-     * Create a new Eloquent model instance.
-     *
-     * @param  array  $attributes
-     * @return void
-     */
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->setRepositories($this->repos);
-    }
-
-    /**
      * Attach repositories
      * @return array
      */
@@ -47,6 +35,10 @@ trait HasRepositories
      */
     public function getRepositories()
     {
+        if (empty($this->_repos))
+        {
+            $this->setRepositories();
+        }
         return $this->_repos;
     }
 
@@ -61,7 +53,9 @@ trait HasRepositories
     {
         $instance = new static;
 
-        foreach ($instance->_repos as $repo)
+        $repos = $instance->getRepositories();
+
+        foreach ($repos as $repo)
         {
             if (method_exists($repo, $method))
             {
