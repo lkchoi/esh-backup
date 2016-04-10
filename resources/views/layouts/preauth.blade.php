@@ -13,10 +13,9 @@
     <link href="/css/plugins/iCheck/custom.css" rel="stylesheet">
     <link href="/css/animate.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
-
 </head>
 
-<body class="gray-bg">
+<body class="black-bg">
 
     <div class="middle-box text-center loginscreen animated fadeInDown">
         @yield('content')
