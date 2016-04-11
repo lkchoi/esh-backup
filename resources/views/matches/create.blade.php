@@ -19,15 +19,15 @@
         <div class="form-group row">
             <label class="payout-label col-sm-2">
                 {!! Form::radio('payout', 200, true) !!}
-                <div class="payout-icon" style="background-image:url('https://placeholdit.imgix.net/~text?txtsize=64\&bg=111111\&txtclr=eeeeee\&txt=%242\&w=128\&h=128\&txttrack=0')"></div>
+                <div class="payout-icon" style="background-image:url('/img/payouts/usd-2.jpg')"></div>
             </label>
             <label class="payout-label col-sm-2">
                 {!! Form::radio('payout', 500) !!}
-                <div class="payout-icon" style="background-image:url('https://placeholdit.imgix.net/~text?txtsize=64\&bg=111111\&txtclr=eeeeee\&txt=%245\&w=128\&h=128\&txttrack=0')"></div>
+                <div class="payout-icon" style="background-image:url('/img/payouts/usd-5.jpg')"></div>
             </label>
             <label class="payout-label col-sm-2">
                 {!! Form::radio('payout', 1000) !!}
-                <div class="payout-icon" style="background-image:url('https://placeholdit.imgix.net/~text?txtsize=64\&bg=111111\&txtclr=eeeeee\&txt=%2410\&w=128\&h=128\&txttrack=0')"></div>
+                <div class="payout-icon" style="background-image:url('/img/payouts/usd-10.jpg')"></div>
             </label>
         </div>
 
@@ -35,7 +35,7 @@
         <div class="form-group row">
             <label class="character-label col-sm-2 col-md-1">
                 {!! Form::radio('character_id', '') !!}
-                <div class="character-icon" style="background-image:url('https://placeholdit.imgix.net/~text?txtsize=72\&bg=333333\&txtclr=eeeeee\&txt=%3F\&w=128\&h=128\&txttrack=0')"></div>
+                <div class="character-icon" style="background-image:url('/img/characters/unknown.jpg')"></div>
             </label>
             @foreach ($characters as $char)
             <label class="character-label col-sm-2 col-md-1">
