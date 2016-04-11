@@ -16,7 +16,14 @@ class UserRepository extends Repository
     public function leaders()
     {
         // match_count_subquery
-        $mcsq = 'SELECT COUNT(*) FROM `roles` WHERE `roles`.`user_id`=`users`.`id`';
+        $mcsq = sprintf(
+            'SELECT COUNT(*)
+            FROM `roles`
+            WHERE `roles`.`user_id`=`users`.`id`
+            AND `roles`.`result` IN (%d,%d)',
+            Role::RESULT_WIN,
+            Role::RESULT_LOSS
+        );
 
         // win_count_subquery
         $wcsq = $mcsq . ' AND `roles`.`result`=' . Role::RESULT_WIN;

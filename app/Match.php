@@ -4,6 +4,7 @@ namespace App;
 
 use App\Role;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Match extends Model
 {
@@ -48,6 +49,22 @@ class Match extends Model
 
     public function getAmountAttribute()
     {
-        return sprintf('$%.2f', $this->payout/100);
+        return sprintf('$%d', $this->payout/100);
+    }
+
+    public function scopeClosed($query)
+    {
+        $role_count_subquery = DB::raw(
+            '(select count(*) from `roles` where `roles`.`match_id`=`matches`.`id`)'
+        );
+        return $query->where($role_count_subquery, '>', 1);
+    }
+
+    public function scopeOpen($query)
+    {
+        $role_count_subquery = DB::raw(
+            '(select count(*) from `roles` where `roles`.`match_id`=`matches`.`id`)'
+        );
+        return $query->where($role_count_subquery, '<', 2);
     }
 }

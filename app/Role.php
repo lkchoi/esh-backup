@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
-    const RESULT_WIN = 1;
-    const RESULT_LOSS = 0;
-    const RESULT_TBD = 10;
+    const RESULT_WIN = 201;
+    const RESULT_LOSS = 200;
+    const RESULT_TBD = 100;
 
     protected $fillable = [
         'match_id',

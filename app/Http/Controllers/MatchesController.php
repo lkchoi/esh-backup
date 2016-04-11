@@ -18,10 +18,32 @@ class MatchesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $matches = Match::paginate();
-        return view('matches.index', compact('matches'));
+        // status
+        $status = $request->get('status');
+
+        switch ($status)
+        {
+            case 'open':
+            $list_title = 'Open Matches';
+            $matches = Match::open()
+                ->orderBy('created_at', 'desc')
+                ->paginate();
+            break;
+
+            case 'closed':
+            $list_title = 'Recent Matches';
+            $matches = Match::closed()->paginate();
+            break;
+
+            default:
+            $list_title = 'Matches';
+            $matches = Match::paginate();
+            break;
+        }
+
+        return view('matches.index', compact('matches','list_title'));
     }
 
     /**
@@ -73,7 +95,6 @@ class MatchesController extends Controller
     public function show($id)
     {
         $match = Match::with('roles.user')->find($id);
-        dd($match);
     }
 
     /**

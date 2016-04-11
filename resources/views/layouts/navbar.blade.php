@@ -12,7 +12,7 @@
             <li class="dropdown">
                 <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Play <span class="caret"></span></a>
                 <ul role="menu" class="dropdown-menu">
-                    <li><a href="">Open Matches</a></li>
+                    <li><a href="/matches?status=open">Open Matches</a></li>
                     <li><a href="">Leaderboard</a></li>
                     <li><a href="">Find Users</a></li>
                 </ul>
