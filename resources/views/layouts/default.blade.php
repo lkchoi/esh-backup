@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESPORTS HERO</title>
+    <title>eSports Hero</title>
     <link href="/font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="/css/animate.css" rel="stylesheet">
     <link href="/css/app.css" rel="stylesheet">
