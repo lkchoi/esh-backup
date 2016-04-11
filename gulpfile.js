@@ -12,6 +12,8 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
-    mix.sass('app.scss')
-        .browserSync({ proxy: 'esportshero.app' })
+    mix.sass('app.scss', 'public/css/app.css')
+    .less('app.less', 'public/css/plugins.css')
+    .scripts('app.js', 'public/js/app.js')
+    .browserSync({ proxy: 'esportshero.app' })
 });
