@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Character;
+use App\Game;
 use App\Http\Requests;
+use App\Http\Requests\CreateMatchRequest;
 use App\Match;
+use App\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MatchesController extends Controller
 {
@@ -26,7 +31,9 @@ class MatchesController extends Controller
      */
     public function create()
     {
-        return view('matches.create');
+        $games = Game::get();
+        $characters = Character::get();
+        return view('matches.create', compact('games','characters'));
     }
 
     /**
@@ -35,9 +42,26 @@ class MatchesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateMatchRequest $request)
     {
-        //
+        $role = new Role([
+            'character_id' => $request->character_id ?: null,
+            'user_id' => $request->user()->id,
+            'result' => Role::RESULT_TBD,
+        ]);
+
+        $match = new Match([
+            'game_id' => $request->game_id,
+            'payout' => $request->payout,
+        ]);
+
+        DB::transaction(function() use ($role, $match) {
+            \Log::info(compact('role','match'));
+            $match->save();
+            $match->roles()->save($role);
+        });
+
+        return redirect("/matches/{$match->id}");
     }
 
     /**
@@ -48,7 +72,8 @@ class MatchesController extends Controller
      */
     public function show($id)
     {
-        //
+        $match = Match::with('roles.user')->find($id);
+        dd($match);
     }
 
     /**

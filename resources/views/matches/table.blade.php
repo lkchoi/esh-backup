@@ -9,36 +9,41 @@
     <tbody>
     @foreach ($matches as $match)
         <tr>
-            {{-- game --}}
             <td>
                 <img class="game-icon" src="{{ $match->game->logo }}">
             </td>
 
-            {{-- gamers --}}
             <td class="text-right">
-                {{ $match->winner->user->username }}
+                @if ($winner = $match->winner)
+                <i class="fa fa-star"></i>
+                {{ $winner->user->username }}
                 <div>
                     <img
                     class="character-icon" 
-                    src="{{ $match->winner->character->image->url }}"
-                    alt="{{ $match->winner->character->name }}"
-                    title="{{ $match->winner->character->name }}"
+                    src="{{ $winner->character->image->url }}"
+                    alt="{{ $winner->character->name }}"
+                    title="{{ $winner->character->name }}"
                     >
                 </div>
+                @else
+                {{ $match->roles()->first()->user->username }}
+                @endif
             </td>
             <td class="versus">
-                def.
+                vs.
             </td>
             <td>
+                @if ($loser = $match->loser)
                 {{ $match->loser->user->username }}
                 <div>
                     <img
                     class="character-icon"
-                    src="{{ $match->loser->character->image->url }}"
-                    alt="{{ $match->loser->character->name }}"
-                    title="{{ $match->loser->character->name }}"
+                    src="{{ $loser->character->image->url }}"
+                    alt="{{ $loser->character->name }}"
+                    title="{{ $loser->character->name }}"
                     >
                 </div>
+                @endif
             </td>
 
             {{-- payout --}}
@@ -50,15 +55,5 @@
 
 @section('tail')
 <style type="text/css">
-.game-icon {
-    max-width:120px;
-}
-.character-icon {
-    height: 45px;
-}
-.versus {
-    width: 5px;
-    white-space: nowrap;
-}
 </style>
 @stop

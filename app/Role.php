@@ -8,6 +8,7 @@ class Role extends Model
 {
     const RESULT_WIN = 1;
     const RESULT_LOSS = 0;
+    const RESULT_TBD = 10;
 
     protected $fillable = [
         'match_id',

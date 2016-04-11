@@ -7,6 +7,7 @@
     <link href="/font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="/css/animate.css" rel="stylesheet">
     <link href="/css/app.css" rel="stylesheet">
+    <link href="/css/plugins.css" rel="stylesheet">
     @yield('head')
 </head>
 <body class="top-navigation">
@@ -33,6 +34,8 @@
     <script src="/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="/js/inspinia.js"></script>
     <script src="/js/plugins/pace/pace.min.js"></script>
+    <script type="text/javascript" src="/js/plugins/selectize.min.js"></script>
+    <script src="/js/app.js"></script>
 
     @yield('tail')
 </body>
