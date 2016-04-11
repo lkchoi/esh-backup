@@ -13,7 +13,7 @@ class ImagesTableSeeder extends Seeder
     public function run()
     {
         Image::create([
-            'url' => '/img/games/heroes-of-newerth-logo-3.png',
+            'url' => '/img/games/heroes-of-newerth-logo-2.png',
             'imageable_id' => 1,
             'imageable_type' => 'App\Game'
         ]);
