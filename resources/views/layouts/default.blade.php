@@ -8,6 +8,7 @@
     <link href="/css/animate.css" rel="stylesheet">
     <link href="/css/app.css" rel="stylesheet">
     <link href="/css/plugins.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     @yield('head')
 </head>
 <body class="top-navigation">
