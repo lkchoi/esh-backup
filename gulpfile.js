@@ -1,4 +1,5 @@
 var elixir = require('laravel-elixir');
+require('laravel-elixir-vueify');
 
 /*
  |--------------------------------------------------------------------------
@@ -12,8 +13,11 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
-    mix.sass('app.scss', 'public/css/app.css')
+    mix
+    .sass('app.scss', 'public/css/app.css')
     .less('app.less', 'public/css/plugins.css')
-    .scripts('app.js', 'public/js/app.js')
+    .scripts('plugins/*.js', 'public/js/plugins.js')
+    .browserify('app.js', 'public/js/app.js')
+    .phpUnit()
     .browserSync({ proxy: 'esportshero.app' })
 });
