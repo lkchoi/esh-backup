@@ -18,7 +18,7 @@
                 @include('layouts.navbar')
             </div>
             <div class="wrapper wrapper-content">
-                <div class="container">
+                <div id="app" class="container">
                     @yield('content')
                 </div>
             </div>
@@ -29,15 +29,18 @@
             </div>
         </div>
     </div>
+
+    <script src="/js/app.js"></script>
     <script src="/js/jquery-2.1.1.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="/js/inspinia.js"></script>
     <script src="/js/plugins/pace/pace.min.js"></script>
-    <script type="text/javascript" src="/js/plugins/selectize.min.js"></script>
-    <script src="/js/app.js"></script>
-
+    <script type="text/javascript" src="/js/plugins/selectize/selectize.js"></script>
+    <!--
+    <script src="/js/inspinia.js"></script>
+    <script src="/js/plugins.js"></script>
+    -->
     @yield('tail')
 </body>
 </html>
