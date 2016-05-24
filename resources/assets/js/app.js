@@ -1,6 +1,15 @@
-var jQuery = require('jquery');
-var Bootstrap = require('bootstrap');
 var Vue = require('vue');
-var SuperAgent = require('superagent');
 
-Vue.use(require('vue-resource'));
+import ChatChannel from './components/chat-channel.vue';
+import MatchList from './components/match-list.vue';
+
+new Vue({
+    el: '#app',
+    components: {
+        ChatChannel,
+        MatchList
+    },
+    ready: function() {
+        console.log('Vue (#app) ready');
+    }
+});

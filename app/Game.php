@@ -15,6 +15,10 @@ class Game extends Model
         'deleted_at'
     ];
 
+    protected $appends = [
+        'logo'
+    ];
+
     public function matches()
     {
         return $this->hasMany(

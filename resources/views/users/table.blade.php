@@ -16,9 +16,23 @@
             <td> {{ $user->username }} </td>
             <td> {{ $user->win_count }} </td>
             <td> {{ $user->loss_count }} </td>
-            <td> {{ sprintf('%.3f', $user->win_ratio) }} </td>
+            <td>
+                <span class="pie">{{ $user->win_count }}/{{ $user->win_count + $user->loss_count }}</span>
+            </td>
             <td class="text-right"> {{ sprintf('$%d', $user->earnings/100) }} </td>
         </tr>
     @endforeach
     </tbody>
 </table>
+
+@section('tail')
+@parent
+<script src="/js/plugins/peity/jquery.peity.min.js"></script>
+<script>
+    var win_color = '#1c84c6'; // $blue
+    var loss_color = '#191919'; // $table-bg-accent
+    $('span.pie').peity('pie', {
+        fill: [win_color, loss_color]
+    });
+</script>
+@stop

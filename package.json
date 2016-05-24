@@ -6,7 +6,6 @@
     "jquery": "^2.2.3",
     "laravel-elixir-vueify": "^1.0.3",
     "metismenu": "^2.5.2",
-    "slimscroll": "^0.9.1",
     "superagent": "^1.8.3",
     "vue": "^1.0.24",
     "vue-resource": "^0.7.0"

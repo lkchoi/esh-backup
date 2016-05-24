@@ -19,7 +19,7 @@
                 {{ $winner->user->username }}
                 <div>
                     <img
-                    class="character-icon" 
+                    class="character-icon"
                     src="{{ $winner->character->image->url }}"
                     alt="{{ $winner->character->name }}"
                     title="{{ $winner->character->name }}"
@@ -52,8 +52,3 @@
     @endforeach
     </tbody>
 </table>
-
-@section('tail')
-<style type="text/css">
-</style>
-@stop
