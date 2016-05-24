@@ -2,11 +2,12 @@
 
 namespace App;
 
+use App\Chat\Message;
 use App\Match;
+use App\Repositories\HasRepositories;
 use App\Role;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
-use App\Repositories\HasRepositories;
 
 class User extends Authenticatable
 {
@@ -43,6 +44,11 @@ class User extends Authenticatable
         'password',
         'remember_token',
         'updated_at'
+    ];
+
+    protected $casts = [
+        'win_count' => 'int',
+        'loss_count' => 'int'
     ];
 
     /**
@@ -106,5 +112,18 @@ class User extends Authenticatable
         return $this->wins()
             ->join('matches', 'matches.id', '=', 'roles.match_id')
             ->sum('matches.payout');
+    }
+
+    /**
+     * Relation: User has many messages
+     * @return Illuminate\Database\Eloquent\Relations\Relation
+     */
+    public function messages()
+    {
+        return $this->hasMany(
+            Message::class,
+            'user_id',
+            'id'
+        );
     }
 }

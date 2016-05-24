@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Chat\Channel;
 use App\Http\Requests;
 use App\Match;
 use App\User;
@@ -23,7 +24,9 @@ class HomeController extends Controller
             ->get();
 
         $users = User::leaders()->limit(10)->get();
-        
-        return view('home', compact('matches','users'));
+
+        $channel = Channel::first();
+
+        return view('home', compact('matches','users','channel'));
     }
 }

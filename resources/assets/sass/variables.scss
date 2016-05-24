@@ -8,6 +8,7 @@ $blue: #1c84c6;              // Success color
 $lazur: #23c6c8;             // Info color
 $yellow: #f8ac59;            // Warrning color
 $red: #ed5565;               // Danger color
+$black: #000;
 
 // Various colors
 $text-color: #ddd;           // Body text
@@ -16,9 +17,9 @@ $light-gray: #d1dade;           // Default label, badget
 $label-badget-color: #5e5e5e;
 
 // IBOX colors ( default panel colors)
-$border-color: #000;   // IBox border
-$ibox-title-bg: white;    // IBox Background header
-$ibox-content-bg: white;  // IBox Background content
+$border-color: #191919;   // IBox border
+$ibox-title-bg: #000;
+$ibox-content-bg: #090909;
 
 //Sidebar width
 $sidebar-width: 220px;
@@ -41,14 +42,10 @@ $top-nav-li-hover-bg: #222;
 $footer-bg: #000;
 
 // Table
-$table-bg-accent: #222; // Background for `.table-striped`.
+$table-bg-accent: #191919; // Background for `.table-striped`.
 $table-border-color: #000 !important;
 
 
 // Dropdowns
 $dropdown-bg: #222;
 $dropdown-border: #000 !important;
-
-// iBoxes
-$ibox-title-bg: #000;
-$ibox-content-bg: #090909;
