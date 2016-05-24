@@ -16,5 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ImagesTableSeeder::class);
         $this->call(UsersTableSeeder::class);
         $this->call(MatchesTableSeeder::class);
+        $this->call(ChatChannelsTableSeeder::class);
+        $this->call(ChatMessagesTableSeeder::class);
     }
 }

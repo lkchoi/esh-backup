@@ -11934,33 +11934,7 @@ exports.insert = function (css) {
 }
 
 },{}],11:[function(require,module,exports){
-'use strict';
-
-var _chatChannel = require('./components/chat-channel.vue');
-
-var _chatChannel2 = _interopRequireDefault(_chatChannel);
-
-var _matchList = require('./components/match-list.vue');
-
-var _matchList2 = _interopRequireDefault(_matchList);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Vue = require('vue');
-
-new Vue({
-    el: '#app',
-    components: {
-        ChatChannel: _chatChannel2.default,
-        MatchList: _matchList2.default
-    },
-    ready: function ready() {
-        console.log('Vue (#app) ready');
-    }
-});
-
-},{"./components/chat-channel.vue":12,"./components/match-list.vue":13,"vue":9}],12:[function(require,module,exports){
-var __vueify_style__ = require("vueify-insert-css").insert("/* line 4, stdin */\n.chat-view textarea[_v-46ed6f36],\n.chat-user[_v-46ed6f36],\n.chat-message > .message[_v-46ed6f36] {\n  border: 1px #000 solid;\n  background: #191919; }\n\n/* line 10, stdin */\n.chat-users[_v-46ed6f36],\n.chat-discussion[_v-46ed6f36] {\n  height: 50em;\n  background: #090909; }\n\n/* line 15, stdin */\n.chat-composer textarea[_v-46ed6f36] {\n  border: 2px #000 solid;\n  background-color: #111;\n  color: #ddd;\n  resize: vertical; }\n\n/* line 21, stdin */\n.chat-view .message-avatar[_v-46ed6f36],\n.chat-view .chat-avatar[_v-46ed6f36],\n.chat-view img[_v-46ed6f36] {\n  background: #111;\n  border: 0px; }\n\n/* line 27, stdin */\n.chat-view textarea[_v-46ed6f36]:hover {\n  border-color: #1c84c6; }\n")
+var __vueify_style__ = require("vueify-insert-css").insert("\n.chat-view textarea[_v-5d3b94f3],\n.chat-user[_v-5d3b94f3],\n.chat-message > .message[_v-5d3b94f3] {\n    border: 1px #000 solid;\n    background: #191919;\n}\n.chat-users[_v-5d3b94f3],\n.chat-discussion[_v-5d3b94f3] {\n    height:50em;\n    background: #090909;\n}\n.chat-composer textarea[_v-5d3b94f3] {\n    border: 2px #000 solid;\n    background-color: #0c0c0c;\n    color: #eee;\n    resize: vertical;\n}\n.chat-view img[_v-5d3b94f3] {\n    background: #000;\n    border:0px;\n}\n.chat-view textarea[_v-5d3b94f3]:hover {\n    border-color: #1f87ff;\n}\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11977,8 +11951,8 @@ exports.default = {
             users: []
         };
     },
-
     props: ['channelId'],
+    // channel-id
     methods: {
         get_channel: function get_channel() {
             var vm = this;
@@ -12006,64 +11980,14 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"ibox chat-view\" _v-46ed6f36=\"\">\n    <div class=\"ibox-title\" _v-46ed6f36=\"\">\n        <h5 _v-46ed6f36=\"\">{{ channel.name }}</h5>\n    </div>\n    <div class=\"ibox-content\" _v-46ed6f36=\"\">\n        <div class=\"row\" _v-46ed6f36=\"\">\n            <div class=\"col-md-9\" _v-46ed6f36=\"\">\n                <div class=\"chat-discussion\" _v-46ed6f36=\"\">\n                    <div class=\"chat-message\" v-for=\"message in messages\" _v-46ed6f36=\"\">\n                        <div class=\"message-avatar\" _v-46ed6f36=\"\"><!-- FIXME --></div>\n                        <div class=\"message\" _v-46ed6f36=\"\">\n                            <a class=\"message-author\" href=\"#\" _v-46ed6f36=\"\">{{ message.user.username }}</a>\n                            <span class=\"message-date\" _v-46ed6f36=\"\">{{ message.created_at }}</span>\n                            <span class=\"message-content\" _v-46ed6f36=\"\">{{ message.content }}</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <div class=\"col-md-3 hidden-sm hidden-xs\" _v-46ed6f36=\"\">\n                <div class=\"chat-users\" _v-46ed6f36=\"\">\n                    <div class=\"users-list\" _v-46ed6f36=\"\">\n                        <div class=\"chat-user\" v-for=\"user in users\" _v-46ed6f36=\"\">\n                            <div class=\"chat-avatar\" _v-46ed6f36=\"\"><!-- FIXME --></div>\n                            <div class=\"chat-user-name\" _v-46ed6f36=\"\">\n                                <a href=\"#\" _v-46ed6f36=\"\">\n                                    {{ user.username }}\n                                </a>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n        <div class=\"row\" _v-46ed6f36=\"\">\n            <div class=\"col-lg-12\" _v-46ed6f36=\"\">\n                <div class=\"chat-message-form\" _v-46ed6f36=\"\">\n                    <div class=\"form-group\" _v-46ed6f36=\"\">\n                        <textarea class=\"form-control message-input\" name=\"message\" placeholder=\"Enter message text\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\" _v-46ed6f36=\"\"></textarea>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"ibox chat-view\" _v-5d3b94f3=\"\">\n    <div class=\"ibox-title\" _v-5d3b94f3=\"\">\n        {{ channel.name }}\n    </div>\n    <div class=\"ibox-content\" _v-5d3b94f3=\"\">\n        <div class=\"row\" _v-5d3b94f3=\"\">\n            <div class=\"col-md-9\" _v-5d3b94f3=\"\">\n                <div class=\"chat-discussion\" _v-5d3b94f3=\"\">\n                    <div class=\"chat-message\" v-for=\"message in messages\" _v-5d3b94f3=\"\">\n                        <img class=\"message-avatar\" src=\"/img/esh-logo.png\" alt=\"\" _v-5d3b94f3=\"\">\n                        <div class=\"message\" _v-5d3b94f3=\"\">\n                            <a class=\"message-author\" href=\"#\" _v-5d3b94f3=\"\">{{ message.user.username }}</a>\n                            <span class=\"message-date\" _v-5d3b94f3=\"\">{{ message.created_at }}</span>\n                            <span class=\"message-content\" _v-5d3b94f3=\"\">{{ message.content }}</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <div class=\"col-md-3\" _v-5d3b94f3=\"\">\n                <div class=\"chat-users\" _v-5d3b94f3=\"\">\n                    <div class=\"users-list\" _v-5d3b94f3=\"\">\n                        <div class=\"chat-user\" v-for=\"user in users\" _v-5d3b94f3=\"\">\n                            <img src=\"/img/esh-logo.png\" alt=\"\" class=\"chat-avatar\" _v-5d3b94f3=\"\">\n                            <div class=\"chat-user-name\" _v-5d3b94f3=\"\">\n                                <a href=\"#\" _v-5d3b94f3=\"\">\n                                    {{ user.username }}\n                                </a>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n        <div class=\"row\" _v-5d3b94f3=\"\">\n            <div class=\"col-lg-12\" _v-5d3b94f3=\"\">\n                <div class=\"chat-message-form\" _v-5d3b94f3=\"\">\n                    <div class=\"form-group\" _v-5d3b94f3=\"\">\n                        <textarea class=\"form-control message-input\" name=\"message\" placeholder=\"Enter message text\" _v-5d3b94f3=\"\"></textarea>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/private/var/www/esportshero/resources/assets/js/components/chat-channel.vue"
+  var id = "/private/var/www/esportshero/resources/assets/js/components/chat_channel.vue"
   module.hot.dispose(function () {
-    require("vueify-insert-css").cache["/* line 4, stdin */\n.chat-view textarea[_v-46ed6f36],\n.chat-user[_v-46ed6f36],\n.chat-message > .message[_v-46ed6f36] {\n  border: 1px #000 solid;\n  background: #191919; }\n\n/* line 10, stdin */\n.chat-users[_v-46ed6f36],\n.chat-discussion[_v-46ed6f36] {\n  height: 50em;\n  background: #090909; }\n\n/* line 15, stdin */\n.chat-composer textarea[_v-46ed6f36] {\n  border: 2px #000 solid;\n  background-color: #111;\n  color: #ddd;\n  resize: vertical; }\n\n/* line 21, stdin */\n.chat-view .message-avatar[_v-46ed6f36],\n.chat-view .chat-avatar[_v-46ed6f36],\n.chat-view img[_v-46ed6f36] {\n  background: #111;\n  border: 0px; }\n\n/* line 27, stdin */\n.chat-view textarea[_v-46ed6f36]:hover {\n  border-color: #1c84c6; }\n"] = false
-    document.head.removeChild(__vueify_style__)
-  })
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
-  }
-})()}
-},{"superagent":4,"vue":9,"vue-hot-reload-api":8,"vueify-insert-css":10}],13:[function(require,module,exports){
-var __vueify_style__ = require("vueify-insert-css").insert("/* line 2, stdin */\n.game-icon[_v-01d3f03d] {\n  max-width: 100px; }\n")
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-
-var request = require('superagent');
-exports.default = {
-    name: 'match-list',
-    data: function data() {
-        return {
-            matches: [],
-            games: []
-        };
-    },
-
-    props: ['title'],
-    methods: {
-        get_matches: function get_matches() {
-            var vm = this;
-            request.get('/api/v1/matches').end(function (err, res) {
-                console.log(res.body);
-                vm.matches = res.body;
-            });
-        }
-    },
-    created: function created() {
-        this.get_matches();
-    }
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"ibox float-e-margins\" _v-01d3f03d=\"\">\n    <div class=\"ibox-title\" _v-01d3f03d=\"\">\n        <h5 _v-01d3f03d=\"\">{{ title }}</h5>\n    </div>\n    <div class=\"ibox-content\" _v-01d3f03d=\"\">\n        <div class=\"table-responsive\" _v-01d3f03d=\"\">\n            <table class=\"table table-striped\" _v-01d3f03d=\"\">\n                <thead _v-01d3f03d=\"\">\n                    <tr _v-01d3f03d=\"\">\n                        <th _v-01d3f03d=\"\">Game</th>\n                        <th class=\"text-center\" colspan=\"3\" _v-01d3f03d=\"\">Gamers</th>\n                        <th class=\"text-right\" _v-01d3f03d=\"\">Payout</th>\n                    </tr>\n                </thead>\n                <tbody _v-01d3f03d=\"\">\n                    <tr v-for=\"match in matches\" _v-01d3f03d=\"\">\n                        <td _v-01d3f03d=\"\">\n                            <img class=\"game-icon\" :src=\"match.game.logo\" _v-01d3f03d=\"\">\n                        </td>\n\n                        <td class=\"text-right\" _v-01d3f03d=\"\">\n                            {{ match.winner.user.username }}\n                        </td>\n                        <td class=\"versus\" _v-01d3f03d=\"\">\n                            vs.\n                        </td>\n                        <td _v-01d3f03d=\"\">\n                            {{ match.loser.user.username }}\n                        </td>\n\n                        <td class=\"text-right\" _v-01d3f03d=\"\">{{ (match.payout/100) | currency }}</td>\n                    </tr>\n                </tbody>\n            </table>\n        </div>\n    </div>\n</div>\n"
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  var id = "/private/var/www/esportshero/resources/assets/js/components/match-list.vue"
-  module.hot.dispose(function () {
-    require("vueify-insert-css").cache["/* line 2, stdin */\n.game-icon[_v-01d3f03d] {\n  max-width: 100px; }\n"] = false
+    require("vueify-insert-css").cache["\n.chat-view textarea[_v-5d3b94f3],\n.chat-user[_v-5d3b94f3],\n.chat-message > .message[_v-5d3b94f3] {\n    border: 1px #000 solid;\n    background: #191919;\n}\n.chat-users[_v-5d3b94f3],\n.chat-discussion[_v-5d3b94f3] {\n    height:50em;\n    background: #090909;\n}\n.chat-composer textarea[_v-5d3b94f3] {\n    border: 2px #000 solid;\n    background-color: #0c0c0c;\n    color: #eee;\n    resize: vertical;\n}\n.chat-view img[_v-5d3b94f3] {\n    background: #000;\n    border:0px;\n}\n.chat-view textarea[_v-5d3b94f3]:hover {\n    border-color: #1f87ff;\n}\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
@@ -12074,4 +11998,4 @@ if (module.hot) {(function () {  module.hot.accept()
 })()}
 },{"superagent":4,"vue":9,"vue-hot-reload-api":8,"vueify-insert-css":10}]},{},[11]);
 
-//# sourceMappingURL=app.js.map
+//# sourceMappingURL=chat.js.map
