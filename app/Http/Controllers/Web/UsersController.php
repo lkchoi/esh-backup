@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
 use App\Http\Requests;
 use App\Http\Requests\UsersCreateRequest;
@@ -53,7 +53,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        // 
+        //
     }
 
     /**
