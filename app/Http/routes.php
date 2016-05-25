@@ -1,34 +1,41 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
-
-Route::get('/', ['uses' => 'HomeController@index']);
 Route::auth();
-Route::get('/home', 'HomeController@index');
-Route::resource('users', 'UsersController');
 
-// Web Routes
-Route::group(['middleware' => 'auth:web'], function() {
-    Route::resource('matches', 'MatchesController', ['except' => ['index','show']]);
+// web routes
+Route::group(['as' => 'web.', 'namespace' => 'Web'], function() {
+
+    // authed web routes
+    Route::group(['middleware' => 'auth:web'], function() {
+        Route::resource('matches', 'MatchesController', ['except' => ['index','show']]);
+    });
+
+    // public web routes
+    Route::get('/', ['uses' => 'HomeController@index']);
+    Route::resource('users',   'UsersController');
+    Route::resource('matches', 'MatchesController');
 });
 
-Route::resource('matches', 'MatchesController', ['only' => ['index','show']]);
+// api routes
+Route::group(['prefix' => '/api/v1/', 'namespace' => 'Api'], function() {
 
-// API Routes
-Route::group(['prefix' => '/api/v1/'], function() {
-    Route::resource('users', 'Api\UsersController');
-    Route::resource('matches', 'Api\MatchesController');
-    Route::resource('channels', 'Api\Chat\ChannelsController');
-    Route::resource('messages', 'Api\Chat\MessagesController');
-    Route::resource('channels.messages', 'Api\Chat\ChannelMessagesController');
-    Route::resource('channels.users', 'Api\Chat\ChannelUsersController');
+    // authed api routes
+    Route::group(['middleware' => 'auth:api'], function() {
+        $cud = ['only' => 'store','update','destroy'];
+        Route::resource('users',             'UsersController', $cud);
+        Route::resource('matches',           'MatchesController', $cud);
+        Route::resource('channels',          'Chat\ChannelsController', $cud);
+        Route::resource('messages',          'Chat\MessagesController', $cud);
+        Route::resource('channels.messages', 'Chat\ChannelMessagesController', $cud);
+        Route::resource('channels.users',    'Chat\ChannelUsersController', $cud);
+    });
+
+    // public api routes
+    $r = ['only' => ['index','show']];
+    Route::resource('users',             'UsersController', $r);
+    Route::resource('matches',           'MatchesController', $r);
+    Route::resource('channels',          'Chat\ChannelsController', $r);
+    Route::resource('messages',          'Chat\MessagesController', $r);
+    Route::resource('channels.messages', 'Chat\ChannelMessagesController', $r);
+    Route::resource('channels.users',    'Chat\ChannelUsersController', $r);
 });
