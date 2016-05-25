@@ -11,7 +11,31 @@ class UsersController extends Controller
 {
     public function index(Request $request)
     {
-        $users = User::get();
+        $query = User::leaders();
+
+        // sort
+        if ($request->order_by)
+        {
+            $order = $request->order ?: 'asc';
+
+            $query = $query->orderBy($request->order_by, $order);
+        }
+
+        // num results
+        if ($request->limit && $request->limit > 0)
+        {
+            $query = $query->limit($request->limit);
+        }
+
+        // page offset
+        if ($request->offset && $request->offset > 0)
+        {
+            $query = $query->offset($request->offset);
+        }
+
+        // fetch records
+        $users = $query->get();
+
         return $users;
     }
 }

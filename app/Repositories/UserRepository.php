@@ -16,7 +16,7 @@ class UserRepository extends Repository
     public function leaders()
     {
         // match_count_subquery
-        $mcsq = sprintf(
+        $mc = sprintf(
             'SELECT COUNT(*)
             FROM `roles`
             WHERE `roles`.`user_id`=`users`.`id`
@@ -26,26 +26,25 @@ class UserRepository extends Repository
         );
 
         // win_count_subquery
-        $wcsq = $mcsq . ' AND `roles`.`result`=' . Role::RESULT_WIN;
+        $wc = $mc . ' AND `roles`.`result`=' . Role::RESULT_WIN;
 
         // loss_count_subquery
-        $lcsq = $mcsq . ' AND `roles`.`result`=' . Role::RESULT_LOSS;
+        $lc = $mc . ' AND `roles`.`result`=' . Role::RESULT_LOSS;
 
         // return query builder
 
         return DB::table('users')->select([
                 'users.id',
                 'users.username',
-                DB::raw("({$wcsq}) AS `win_count`"),
-                DB::raw("({$lcsq}) AS `loss_count`"),
-                DB::raw("({$mcsq}) AS `match_count`"),
-                DB::raw("(({$wcsq})/({$mcsq})) AS `win_ratio`"),
+                DB::raw("({$wc}) AS `win_count`"),
+                DB::raw("({$lc}) AS `loss_count`"),
+                DB::raw("({$mc}) AS `match_count`"),
+                DB::raw("(({$wc})/({$mc})) AS `win_ratio`"),
                 DB::raw('SUM(`matches`.`payout`) AS `earnings`'),
             ])
             ->join('roles', 'roles.user_id', '=', 'users.id')
             ->join('matches', 'roles.match_id', '=', 'matches.id')
             ->where('roles.result', '=', Role::RESULT_WIN)
-            ->groupBy('users.id')
-            ->orderBy('earnings', 'desc');
+            ->groupBy('users.id');
     }
 }

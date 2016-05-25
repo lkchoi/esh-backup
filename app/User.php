@@ -51,6 +51,13 @@ class User extends Authenticatable
         'loss_count' => 'int'
     ];
 
+    protected $appends = [
+        'win_count',
+        'loss_count',
+        'match_count',
+        'total_earnings',
+    ];
+
     /**
      * Relation: User has many roles
      * @return Illuminate\Database\Eloquent\Relations\Relation
@@ -125,5 +132,25 @@ class User extends Authenticatable
             'user_id',
             'id'
         );
+    }
+
+    public function getTotalEarningsAttribute()
+    {
+        return $this->earnings();
+    }
+
+    public function getMatchCountAttribute()
+    {
+        return $this->matches()->count();
+    }
+
+    public function getWinCountAttribute()
+    {
+        return $this->wins()->count();
+    }
+
+    public function getLossCountAttribute()
+    {
+        return $this->losses()->count();
     }
 }

@@ -29,7 +29,7 @@
                                 {{ match.loser.user.username }}
                             </td>
 
-                            <td class="text-right">{{ (match.payout/100) | currency }}</td>
+                            <td class="text-right">{{ match.payout | usd }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -39,32 +39,32 @@
 </template>
 
 <script>
-var request = require('superagent');
-export default {
-    name: 'match-list',
-    data() {
-        return {
-            matches: [],
-            games: []
-        };
-    },
-    props: [
-        'title'
-    ],
-    methods: {
-        get_matches() {
-            var vm = this;
-            request.get('/api/v1/matches')
-            .end(function(err,res) {
-                console.log(res.body);
-                vm.matches = res.body;
-            });
+    var request = require('superagent');
+    export default {
+        name: 'match-list',
+        data() {
+            return {
+                matches: [],
+                games: []
+            };
+        },
+        props: [
+            'title'
+        ],
+        methods: {
+            get_matches() {
+                var vm = this;
+                request
+                .get('/api/v1/matches')
+                .end(function(err,res) {
+                    vm.matches = res.body;
+                });
+            }
+        },
+        created() {
+            this.get_matches();
         }
-    },
-    created() {
-        this.get_matches();
-    }
-};
+    };
 </script>
 
 <style lang="scss" scoped>

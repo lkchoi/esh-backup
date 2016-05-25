@@ -55,6 +55,7 @@
 <script>
     var request = require('superagent');
     export default {
+        name: 'chat-channel',
         data() {
             return {
                 channel: {},
@@ -66,21 +67,24 @@
         methods: {
             get_channel() {
                 var vm = this;
-                request.get('/api/v1/channels/' + this.channelId)
+                request
+                .get('/api/v1/channels/' + this.channelId)
                 .end(function(err, res) {
                     vm.channel = res.body;
                 });
             },
             get_users() {
                 var vm = this;
-                request.get('/api/v1/channels/' + this.channelId + '/users')
+                request
+                .get('/api/v1/channels/' + this.channelId + '/users')
                 .end(function(err, res) {
                     vm.users = res.body;
                 });
             },
             get_messages() {
                 var vm = this;
-                request.get('/api/v1/channels/' + this.channelId + '/messages')
+                request
+                .get('/api/v1/channels/' + this.channelId + '/messages')
                 .end(function(err, res) {
                     vm.messages = res.body;
                 });
