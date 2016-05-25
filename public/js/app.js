@@ -1,169 +1,4 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-
-/**
- * Expose `Emitter`.
- */
-
-if (typeof module !== 'undefined') {
-  module.exports = Emitter;
-}
-
-/**
- * Initialize a new `Emitter`.
- *
- * @api public
- */
-
-function Emitter(obj) {
-  if (obj) return mixin(obj);
-};
-
-/**
- * Mixin the emitter properties.
- *
- * @param {Object} obj
- * @return {Object}
- * @api private
- */
-
-function mixin(obj) {
-  for (var key in Emitter.prototype) {
-    obj[key] = Emitter.prototype[key];
-  }
-  return obj;
-}
-
-/**
- * Listen on the given `event` with `fn`.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.on =
-Emitter.prototype.addEventListener = function(event, fn){
-  this._callbacks = this._callbacks || {};
-  (this._callbacks['$' + event] = this._callbacks['$' + event] || [])
-    .push(fn);
-  return this;
-};
-
-/**
- * Adds an `event` listener that will be invoked a single
- * time then automatically removed.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.once = function(event, fn){
-  function on() {
-    this.off(event, on);
-    fn.apply(this, arguments);
-  }
-
-  on.fn = fn;
-  this.on(event, on);
-  return this;
-};
-
-/**
- * Remove the given callback for `event` or all
- * registered callbacks.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.off =
-Emitter.prototype.removeListener =
-Emitter.prototype.removeAllListeners =
-Emitter.prototype.removeEventListener = function(event, fn){
-  this._callbacks = this._callbacks || {};
-
-  // all
-  if (0 == arguments.length) {
-    this._callbacks = {};
-    return this;
-  }
-
-  // specific event
-  var callbacks = this._callbacks['$' + event];
-  if (!callbacks) return this;
-
-  // remove all handlers
-  if (1 == arguments.length) {
-    delete this._callbacks['$' + event];
-    return this;
-  }
-
-  // remove specific handler
-  var cb;
-  for (var i = 0; i < callbacks.length; i++) {
-    cb = callbacks[i];
-    if (cb === fn || cb.fn === fn) {
-      callbacks.splice(i, 1);
-      break;
-    }
-  }
-  return this;
-};
-
-/**
- * Emit `event` with the given args.
- *
- * @param {String} event
- * @param {Mixed} ...
- * @return {Emitter}
- */
-
-Emitter.prototype.emit = function(event){
-  this._callbacks = this._callbacks || {};
-  var args = [].slice.call(arguments, 1)
-    , callbacks = this._callbacks['$' + event];
-
-  if (callbacks) {
-    callbacks = callbacks.slice(0);
-    for (var i = 0, len = callbacks.length; i < len; ++i) {
-      callbacks[i].apply(this, args);
-    }
-  }
-
-  return this;
-};
-
-/**
- * Return array of callbacks for `event`.
- *
- * @param {String} event
- * @return {Array}
- * @api public
- */
-
-Emitter.prototype.listeners = function(event){
-  this._callbacks = this._callbacks || {};
-  return this._callbacks['$' + event] || [];
-};
-
-/**
- * Check if this emitter has `event` handlers.
- *
- * @param {String} event
- * @return {Boolean}
- * @api public
- */
-
-Emitter.prototype.hasListeners = function(event){
-  return !! this.listeners(event).length;
-};
-
-},{}],2:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -259,7 +94,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],3:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 
 /**
  * Reduce `arr` with `fn`.
@@ -284,7 +119,7 @@ module.exports = function(arr, fn, initial){
   
   return curr;
 };
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -1363,7 +1198,7 @@ request.put = function(url, data, fn){
   return req;
 };
 
-},{"./is-object":5,"./request":7,"./request-base":6,"emitter":1,"reduce":3}],5:[function(require,module,exports){
+},{"./is-object":4,"./request":6,"./request-base":5,"emitter":7,"reduce":2}],4:[function(require,module,exports){
 /**
  * Check if `obj` is an object.
  *
@@ -1378,7 +1213,7 @@ function isObject(obj) {
 
 module.exports = isObject;
 
-},{}],6:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /**
  * Module of mixed-in functions shared between node and client code
  */
@@ -1546,7 +1381,7 @@ exports.field = function(name, val) {
   return this;
 };
 
-},{"./is-object":5}],7:[function(require,module,exports){
+},{"./is-object":4}],6:[function(require,module,exports){
 // The node and browser modules expose versions of this with the
 // appropriate constructor function bound as first argument
 /**
@@ -1579,6 +1414,171 @@ function request(RequestConstructor, method, url) {
 }
 
 module.exports = request;
+
+},{}],7:[function(require,module,exports){
+
+/**
+ * Expose `Emitter`.
+ */
+
+if (typeof module !== 'undefined') {
+  module.exports = Emitter;
+}
+
+/**
+ * Initialize a new `Emitter`.
+ *
+ * @api public
+ */
+
+function Emitter(obj) {
+  if (obj) return mixin(obj);
+};
+
+/**
+ * Mixin the emitter properties.
+ *
+ * @param {Object} obj
+ * @return {Object}
+ * @api private
+ */
+
+function mixin(obj) {
+  for (var key in Emitter.prototype) {
+    obj[key] = Emitter.prototype[key];
+  }
+  return obj;
+}
+
+/**
+ * Listen on the given `event` with `fn`.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.on =
+Emitter.prototype.addEventListener = function(event, fn){
+  this._callbacks = this._callbacks || {};
+  (this._callbacks['$' + event] = this._callbacks['$' + event] || [])
+    .push(fn);
+  return this;
+};
+
+/**
+ * Adds an `event` listener that will be invoked a single
+ * time then automatically removed.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.once = function(event, fn){
+  function on() {
+    this.off(event, on);
+    fn.apply(this, arguments);
+  }
+
+  on.fn = fn;
+  this.on(event, on);
+  return this;
+};
+
+/**
+ * Remove the given callback for `event` or all
+ * registered callbacks.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.off =
+Emitter.prototype.removeListener =
+Emitter.prototype.removeAllListeners =
+Emitter.prototype.removeEventListener = function(event, fn){
+  this._callbacks = this._callbacks || {};
+
+  // all
+  if (0 == arguments.length) {
+    this._callbacks = {};
+    return this;
+  }
+
+  // specific event
+  var callbacks = this._callbacks['$' + event];
+  if (!callbacks) return this;
+
+  // remove all handlers
+  if (1 == arguments.length) {
+    delete this._callbacks['$' + event];
+    return this;
+  }
+
+  // remove specific handler
+  var cb;
+  for (var i = 0; i < callbacks.length; i++) {
+    cb = callbacks[i];
+    if (cb === fn || cb.fn === fn) {
+      callbacks.splice(i, 1);
+      break;
+    }
+  }
+  return this;
+};
+
+/**
+ * Emit `event` with the given args.
+ *
+ * @param {String} event
+ * @param {Mixed} ...
+ * @return {Emitter}
+ */
+
+Emitter.prototype.emit = function(event){
+  this._callbacks = this._callbacks || {};
+  var args = [].slice.call(arguments, 1)
+    , callbacks = this._callbacks['$' + event];
+
+  if (callbacks) {
+    callbacks = callbacks.slice(0);
+    for (var i = 0, len = callbacks.length; i < len; ++i) {
+      callbacks[i].apply(this, args);
+    }
+  }
+
+  return this;
+};
+
+/**
+ * Return array of callbacks for `event`.
+ *
+ * @param {String} event
+ * @return {Array}
+ * @api public
+ */
+
+Emitter.prototype.listeners = function(event){
+  this._callbacks = this._callbacks || {};
+  return this._callbacks['$' + event] || [];
+};
+
+/**
+ * Check if this emitter has `event` handlers.
+ *
+ * @param {String} event
+ * @return {Boolean}
+ * @api public
+ */
+
+Emitter.prototype.hasListeners = function(event){
+  return !! this.listeners(event).length;
+};
 
 },{}],8:[function(require,module,exports){
 var Vue // late bind
@@ -11913,7 +11913,7 @@ setTimeout(function () {
 
 module.exports = Vue;
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":2}],10:[function(require,module,exports){
+},{"_process":1}],10:[function(require,module,exports){
 var inserted = exports.cache = {}
 
 exports.insert = function (css) {
@@ -11944,22 +11944,67 @@ var _matchList = require('./components/match-list.vue');
 
 var _matchList2 = _interopRequireDefault(_matchList);
 
+var _userList = require('./components/user-list.vue');
+
+var _userList2 = _interopRequireDefault(_userList);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Vue = require('vue');
 
+/**
+ * Replace underscores with spaces
+ *
+ * @param {String}
+ * @return {String}
+ */
+Vue.filter('unslug', function (value) {
+    return value.replace(/_/g, ' ');
+});
+
+/**
+ * Converts lower case string to title case
+ *
+ * @param  {String}
+ * @return {String}
+ */
+Vue.filter('titlecase', function (value) {
+    return value.replace(/(\w+)/g, function (match) {
+        return match.charAt(0).toUpperCase() + match.slice(1);
+    });
+});
+
+/**
+ * Converts 1450 to "$15"
+ *   - divides by 100
+ *   - rounds to nearest whole number
+ *   - prepends "$" (dollar sign)
+ *
+ * @param  {int}
+ * @param  {boolean}
+ * @return {String}
+ */
+Vue.filter('usd', function (value, cents) {
+    cents = cents ? 2 : 0;
+    return '$' + parseFloat(value / 100).toFixed(cents);
+});
+
+/**
+ * Homepage Vue Instance
+ */
 new Vue({
     el: '#app',
     components: {
         ChatChannel: _chatChannel2.default,
-        MatchList: _matchList2.default
+        MatchList: _matchList2.default,
+        UserList: _userList2.default
     },
     ready: function ready() {
         console.log('Vue (#app) ready');
     }
 });
 
-},{"./components/chat-channel.vue":12,"./components/match-list.vue":13,"vue":9}],12:[function(require,module,exports){
+},{"./components/chat-channel.vue":12,"./components/match-list.vue":13,"./components/user-list.vue":14,"vue":9}],12:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("/* line 4, stdin */\n.chat-view textarea[_v-46ed6f36],\n.chat-user[_v-46ed6f36],\n.chat-message > .message[_v-46ed6f36] {\n  border: 1px #000 solid;\n  background: #191919; }\n\n/* line 10, stdin */\n.chat-users[_v-46ed6f36],\n.chat-discussion[_v-46ed6f36] {\n  height: 50em;\n  background: #090909; }\n\n/* line 15, stdin */\n.chat-composer textarea[_v-46ed6f36] {\n  border: 2px #000 solid;\n  background-color: #111;\n  color: #ddd;\n  resize: vertical; }\n\n/* line 21, stdin */\n.chat-view .message-avatar[_v-46ed6f36],\n.chat-view .chat-avatar[_v-46ed6f36],\n.chat-view img[_v-46ed6f36] {\n  background: #111;\n  border: 0px; }\n\n/* line 27, stdin */\n.chat-view textarea[_v-46ed6f36]:hover {\n  border-color: #1c84c6; }\n")
 'use strict';
 
@@ -11970,6 +12015,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var request = require('superagent');
 exports.default = {
+    name: 'chat-channel',
     data: function data() {
         return {
             channel: {},
@@ -12022,7 +12068,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"superagent":4,"vue":9,"vue-hot-reload-api":8,"vueify-insert-css":10}],13:[function(require,module,exports){
+},{"superagent":3,"vue":9,"vue-hot-reload-api":8,"vueify-insert-css":10}],13:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("/* line 2, stdin */\n.game-icon[_v-01d3f03d] {\n  max-width: 100px; }\n")
 'use strict';
 
@@ -12046,7 +12092,6 @@ exports.default = {
         get_matches: function get_matches() {
             var vm = this;
             request.get('/api/v1/matches').end(function (err, res) {
-                console.log(res.body);
                 vm.matches = res.body;
             });
         }
@@ -12056,7 +12101,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"ibox float-e-margins\" _v-01d3f03d=\"\">\n    <div class=\"ibox-title\" _v-01d3f03d=\"\">\n        <h5 _v-01d3f03d=\"\">{{ title }}</h5>\n    </div>\n    <div class=\"ibox-content\" _v-01d3f03d=\"\">\n        <div class=\"table-responsive\" _v-01d3f03d=\"\">\n            <table class=\"table table-striped\" _v-01d3f03d=\"\">\n                <thead _v-01d3f03d=\"\">\n                    <tr _v-01d3f03d=\"\">\n                        <th _v-01d3f03d=\"\">Game</th>\n                        <th class=\"text-center\" colspan=\"3\" _v-01d3f03d=\"\">Gamers</th>\n                        <th class=\"text-right\" _v-01d3f03d=\"\">Payout</th>\n                    </tr>\n                </thead>\n                <tbody _v-01d3f03d=\"\">\n                    <tr v-for=\"match in matches\" _v-01d3f03d=\"\">\n                        <td _v-01d3f03d=\"\">\n                            <img class=\"game-icon\" :src=\"match.game.logo\" _v-01d3f03d=\"\">\n                        </td>\n\n                        <td class=\"text-right\" _v-01d3f03d=\"\">\n                            {{ match.winner.user.username }}\n                        </td>\n                        <td class=\"versus\" _v-01d3f03d=\"\">\n                            vs.\n                        </td>\n                        <td _v-01d3f03d=\"\">\n                            {{ match.loser.user.username }}\n                        </td>\n\n                        <td class=\"text-right\" _v-01d3f03d=\"\">{{ (match.payout/100) | currency }}</td>\n                    </tr>\n                </tbody>\n            </table>\n        </div>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"ibox float-e-margins\" _v-01d3f03d=\"\">\n    <div class=\"ibox-title\" _v-01d3f03d=\"\">\n        <h5 _v-01d3f03d=\"\">{{ title }}</h5>\n    </div>\n    <div class=\"ibox-content\" _v-01d3f03d=\"\">\n        <div class=\"table-responsive\" _v-01d3f03d=\"\">\n            <table class=\"table table-striped\" _v-01d3f03d=\"\">\n                <thead _v-01d3f03d=\"\">\n                    <tr _v-01d3f03d=\"\">\n                        <th _v-01d3f03d=\"\">Game</th>\n                        <th class=\"text-center\" colspan=\"3\" _v-01d3f03d=\"\">Gamers</th>\n                        <th class=\"text-right\" _v-01d3f03d=\"\">Payout</th>\n                    </tr>\n                </thead>\n                <tbody _v-01d3f03d=\"\">\n                    <tr v-for=\"match in matches\" _v-01d3f03d=\"\">\n                        <td _v-01d3f03d=\"\">\n                            <img class=\"game-icon\" :src=\"match.game.logo\" _v-01d3f03d=\"\">\n                        </td>\n\n                        <td class=\"text-right\" _v-01d3f03d=\"\">\n                            {{ match.winner.user.username }}\n                        </td>\n                        <td class=\"versus\" _v-01d3f03d=\"\">\n                            vs.\n                        </td>\n                        <td _v-01d3f03d=\"\">\n                            {{ match.loser.user.username }}\n                        </td>\n\n                        <td class=\"text-right\" _v-01d3f03d=\"\">{{ match.payout | usd }}</td>\n                    </tr>\n                </tbody>\n            </table>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -12072,6 +12117,80 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"superagent":4,"vue":9,"vue-hot-reload-api":8,"vueify-insert-css":10}]},{},[11]);
+},{"superagent":3,"vue":9,"vue-hot-reload-api":8,"vueify-insert-css":10}],14:[function(require,module,exports){
+var __vueify_style__ = require("vueify-insert-css").insert("/* line 3, stdin */\nth.asc[_v-3af13f19]::after {\n  display: inline-block;\n  font: normal normal normal 14px/1 FontAwesome;\n  content: \"\\f106 \"; }\n\n/* line 9, stdin */\nth.desc[_v-3af13f19]::after {\n  display: inline-block;\n  font: normal normal normal 14px/1 FontAwesome;\n  content: \"\\f107 \"; }\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+
+var request = require('superagent');
+
+exports.default = {
+    name: 'users-list',
+    data: function data() {
+        return {
+            users: [],
+            order_by: 'earnings',
+            order: 'desc'
+        };
+    },
+
+    props: ['title'],
+    methods: {
+        get_users: function get_users() {
+            var vm = this;
+            request.get('/api/v1/users', {
+                order_by: this.order_by,
+                order: this.order,
+                limit: 10,
+                offset: 0
+            }).end(function (err, res) {
+                vm.users = res.body;
+                vm.$nextTick(function () {
+                    vm.pie();
+                });
+            });
+        },
+        reorder: function reorder(order_by, order) {
+            this.order_by = order_by;
+            this.order = order;
+            this.get_users();
+        },
+        hl: function hl(field) {
+            return field === this.order_by ? this.order : '';
+        },
+        pie: function pie() {
+            $('.pie').peity('pie', {
+                fill: ['#1c84c6', // $blue
+                '#191919' // $table-bg-accent
+                ]
+            });
+        }
+    },
+    created: function created() {
+        this.get_users();
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"ibox float-e-margins\" _v-3af13f19=\"\">\n    <div class=\"ibox-title\" _v-3af13f19=\"\">\n        <h5 _v-3af13f19=\"\">{{ title }} ( by {{ order_by | unslug | titlecase }} )</h5>\n    </div>\n    <div class=\"ibox-content\" _v-3af13f19=\"\">\n        <div class=\"table-responsive\" _v-3af13f19=\"\">\n            <table class=\"table table-striped\" _v-3af13f19=\"\">\n                <thead _v-3af13f19=\"\">\n                    <tr _v-3af13f19=\"\">\n                        <th _v-3af13f19=\"\">Rank</th>\n                        <th _v-3af13f19=\"\">Gamer</th>\n                        <th :class=\"hl('win_count')\" _v-3af13f19=\"\">\n                            <a @click=\"reorder('win_count','desc')\" _v-3af13f19=\"\">\n                                Wins\n                            </a>\n                        </th>\n                        <th :class=\"hl('loss_count')\" _v-3af13f19=\"\">\n                            <a @click=\"reorder('loss_count','asc')\" _v-3af13f19=\"\">\n                                Losses\n                            </a>\n                        </th>\n                        <th :class=\"hl('win_ratio')\" _v-3af13f19=\"\">\n                            <a @click=\"reorder('win_ratio','desc')\" _v-3af13f19=\"\">\n                                Ratio\n                            </a>\n                        </th>\n                        <th class=\"text-right\" :class=\"hl('earnings')\" _v-3af13f19=\"\">\n                            <a @click=\"reorder('earnings','desc')\" _v-3af13f19=\"\">\n                                Earnings\n                            </a>\n                        </th>\n                    </tr>\n                </thead>\n                <tbody _v-3af13f19=\"\">\n                    <tr v-for=\"(rank, user) in users\" track-by=\"$index\" _v-3af13f19=\"\">\n                        <td _v-3af13f19=\"\">{{ rank + 1 }}</td>\n                        <td _v-3af13f19=\"\">{{ user.username }}</td>\n                        <td _v-3af13f19=\"\">{{ user.win_count }}</td>\n                        <td _v-3af13f19=\"\">{{ user.loss_count }}</td>\n                        <td _v-3af13f19=\"\">\n                            <span class=\"pie\" _v-3af13f19=\"\">{{ user.win_count }}/{{ user.match_count }}</span>\n                            <span style=\"margin-left:1ex;\" _v-3af13f19=\"\">\n                                {{ parseFloat( user.win_ratio*100 ).toFixed(1) }}\n                                <small class=\"text-muted\" _v-3af13f19=\"\">%</small>\n                            </span>\n                        </td>\n                        <td class=\"text-right\" _v-3af13f19=\"\">\n                            {{ user.earnings | usd }}\n                        </td>\n                    </tr>\n                </tbody>\n            </table>\n        </div>\n    </div>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/private/var/www/esportshero/resources/assets/js/components/user-list.vue"
+  module.hot.dispose(function () {
+    require("vueify-insert-css").cache["/* line 3, stdin */\nth.asc[_v-3af13f19]::after {\n  display: inline-block;\n  font: normal normal normal 14px/1 FontAwesome;\n  content: \"\\f106 \"; }\n\n/* line 9, stdin */\nth.desc[_v-3af13f19]::after {\n  display: inline-block;\n  font: normal normal normal 14px/1 FontAwesome;\n  content: \"\\f107 \"; }\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"superagent":3,"vue":9,"vue-hot-reload-api":8,"vueify-insert-css":10}]},{},[11]);
 
 //# sourceMappingURL=app.js.map
