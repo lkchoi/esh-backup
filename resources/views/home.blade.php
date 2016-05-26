@@ -3,7 +3,6 @@
 @section('content')
 <div class="row">
     <div class="col-sm-12 col-lg-6">
-        <!-- include('ibox', ['title' => 'Leaderboard', 'view' => 'users.table', 'data' => ['users' => $users] ]) -->
         <user-list title="Leaderboard"></user-list>
         <match-list title="Recent Matches"></match-list>
     </div>
