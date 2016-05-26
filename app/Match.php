@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 
 class Match extends Model
 {
+    protected $perPage = 10;
+
     protected $fillable = [
         'game_id',
         'maker_id',
