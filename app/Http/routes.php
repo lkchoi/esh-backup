@@ -17,7 +17,7 @@ Route::group(['as' => 'web.', 'namespace' => 'Web'], function() {
 });
 
 // api routes
-Route::group(['prefix' => '/api/v1/', 'namespace' => 'Api'], function() {
+Route::group(['prefix' => '/api/v1/', 'namespace' => 'Api', 'middleware' => 'api'], function() {
 
     // authed api routes
     Route::group(['middleware' => 'auth:api'], function() {

@@ -25,6 +25,13 @@ class AppServiceProvider extends ServiceProvider
             }
         });
 
+        User::creating(function($user) {
+            if (empty($user->api_token))
+            {
+                $user->api_token = $user->generateApiToken();
+            }
+        });
+
         Channel::saving(function($channel) {
 
             // slugify the channel name
