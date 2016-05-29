@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 
-class ChannelMessagesController extends Controller
+class ChannelsMessagesController extends Controller
 {
     public function index(Request $request, $channel_id)
     {

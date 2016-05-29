@@ -26,8 +26,8 @@ Route::group(['prefix' => '/api/v1/', 'namespace' => 'Api'], function() {
         Route::resource('matches',           'MatchesController', $cud);
         Route::resource('channels',          'Chat\ChannelsController', $cud);
         Route::resource('messages',          'Chat\MessagesController', $cud);
-        Route::resource('channels.messages', 'Chat\ChannelMessagesController', $cud);
-        Route::resource('channels.users',    'Chat\ChannelUsersController', $cud);
+        Route::resource('channels.messages', 'Chat\ChannelsMessagesController', $cud);
+        Route::resource('channels.users',    'Chat\ChannelsUsersController', $cud);
     });
 
     // public api routes
@@ -36,6 +36,6 @@ Route::group(['prefix' => '/api/v1/', 'namespace' => 'Api'], function() {
     Route::resource('matches',           'MatchesController', $r);
     Route::resource('channels',          'Chat\ChannelsController', $r);
     Route::resource('messages',          'Chat\MessagesController', $r);
-    Route::resource('channels.messages', 'Chat\ChannelMessagesController', $r);
-    Route::resource('channels.users',    'Chat\ChannelUsersController', $r);
+    Route::resource('channels.messages', 'Chat\ChannelsMessagesController', $r);
+    Route::resource('channels.users',    'Chat\ChannelsUsersController', $r);
 });
