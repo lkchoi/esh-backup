@@ -11999,9 +11999,7 @@ new Vue({
         MatchList: _matchList2.default,
         UserList: _userList2.default
     },
-    ready: function ready() {
-        console.log('Vue (#app) ready');
-    }
+    ready: function ready() {}
 });
 
 },{"./components/chat-channel.vue":12,"./components/match-list.vue":13,"./components/user-list.vue":14,"vue":9}],12:[function(require,module,exports){

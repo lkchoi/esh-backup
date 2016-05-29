@@ -53,6 +53,5 @@ new Vue({
         UserList
     },
     ready: function() {
-        console.log('Vue (#app) ready');
     }
 });

@@ -27,7 +27,10 @@ class HomeController extends Controller
 
         $channel = Channel::first();
 
-        \JS::put(['api_token' => auth()->user('api_token')]);
+        $user = auth()->user();
+        \JS::put([
+            'api_token' => $user ? $user->api_token : null
+        ]);
 
         return view('home', compact('matches','users','channel'));
     }
