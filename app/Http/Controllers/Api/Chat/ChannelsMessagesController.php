@@ -10,14 +10,11 @@ use Illuminate\Http\Request;
 
 class ChannelsMessagesController extends Controller
 {
-    public function index(Request $request, $channel_id)
+    public function index(Request $request, Channel $channel)
     {
-        $channel = Channel::with('messages.user')->find($channel_id);
-
         if ($channel)
         {
-            $messages = collect($channel->messages);
-            return $messages;
+            return $channel->messages;
         }
 
         return abort(404, 'Could not find channel');
