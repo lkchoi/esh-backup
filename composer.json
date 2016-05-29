@@ -16,7 +16,8 @@
         "symfony/css-selector": "2.8.*|3.0.*",
         "symfony/dom-crawler": "2.8.*|3.0.*",
         "laravel/homestead": "^3.0",
-        "laracasts/utilities": "^2.1"
+        "laracasts/utilities": "^2.1",
+        "doctrine/dbal": "^2.5"
     },
     "autoload": {
         "classmap": [
