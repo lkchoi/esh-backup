@@ -1,5 +1,8 @@
 <?php
 
+// singularize route-model binding params
+Route::singularResourceParameters();
+
 Route::auth();
 
 // web routes
