@@ -16,10 +16,11 @@ class CreateGamesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('abbreviation');
+            $table->string('slug');
 
             // character, hero, race, team, side
             $table->string('character_term')->default('character')->nullable();
-            
+
             $table->timestamps();
             $table->softDeletes();
         });
