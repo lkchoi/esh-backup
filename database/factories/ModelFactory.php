@@ -15,7 +15,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'username' => $faker->userName,
         'email' => $faker->safeEmail,
-        'password' => 'asdfasdf', // hashed by AppServiceProvider
+        'password' => 'secret', // hashed by AppServiceProvider
         'api_token' => str_random(60),
     ];
 });
@@ -50,6 +50,7 @@ $factory->define(App\Chat\Message::class, function (Faker\Generator $faker) {
     $users = App\User::count();
     $channels = App\Chat\Channel::count();
     $timestamp = $faker->dateTimeBetween('-3 weeks');
+
     return [
         'user_id' => $faker->numberBetween(1, $users),
         'channel_id' => $faker->numberBetween(1, $channels),
