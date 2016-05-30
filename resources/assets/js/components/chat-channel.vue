@@ -10,9 +10,15 @@
                         <div class="chat-message" v-for="message in messages">
                             <div class="message-avatar"><!-- FIXME --></div>
                             <div class="message">
-                                <a class="message-author" href="#">{{ message.user.username }}</a>
-                                <span class="message-date">{{ message.created_at }}</span>
-                                <span class="message-content">{{ message.content }}</span>
+                                <a class="message-author" href="#">
+                                    {{ message.user.username }}
+                                </a>
+                                <span class="message-date">
+                                    {{ message.created_at }}
+                                </span>
+                                <span class="message-content">
+                                    {{ message.content }}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -46,7 +52,9 @@
                             v-model="message"
                             ></input>
                             <div class="input-group-btn">
-                                <button type="submit" class="btn btn-primary">Send</button>
+                                <button type="submit" class="btn btn-primary">
+                                    Send
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -62,6 +70,7 @@
         name: 'chat-channel',
         data() {
             return {
+                api_token: php.api_token,
                 channel: {},
                 messages: [],
                 users: [],
@@ -81,14 +90,17 @@
                 request
                 .get('/api/v1/channels/' + this.channelId + '/messages')
                 .end(function(err, res) {
-                    this.messages = res.body;
+                    this.messages = res.body.data;
                 }.bind(this));
             },
             sendMessage() {
                 request
                 .post('/api/v1/channels/' + this.channelId + '/messages')
-                .set({ 'Accept': 'application/json' })
-                .send({ content: this.message, api_token: php.api_token })
+                .set({
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + this.api_token
+                })
+                .send({ content: this.message })
                 .end(function(err, res) {
                     console.log(res.body);
                     this.message = null;
@@ -97,7 +109,6 @@
         },
         created() {
             this.getChannel();
-            // this.getMessages();
         }
     };
 </script>
