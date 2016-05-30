@@ -10,9 +10,15 @@
                         <div class="chat-message" v-for="message in messages">
                             <div class="message-avatar"><!-- FIXME --></div>
                             <div class="message">
-                                <a class="message-author" href="#">{{ message.user.username }}</a>
-                                <span class="message-date">{{ message.created_at }}</span>
-                                <span class="message-content">{{ message.content }}</span>
+                                <a class="message-author" href="#">
+                                    {{ message.user.username }}
+                                </a>
+                                <span class="message-date">
+                                    {{ message.created_at }}
+                                </span>
+                                <span class="message-content">
+                                    {{ message.content }}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -34,19 +40,24 @@
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="chat-message-form">
-                        <div class="form-group">
-                            <textarea
-                            class="form-control message-input"
+                    <form class="chat-message-form" @submit.prevent="sendMessage()">
+                        <div class="input-group">
+                            <input
+                            class="form-control"
                             name="message"
-                            placeholder="Enter message text"
                             autocomplete="off"
                             autocorrect="off"
                             autocapitalize="off"
                             spellcheck="false"
-                            ></textarea>
+                            v-model="message"
+                            ></input>
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-primary">
+                                    Send
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -54,53 +65,57 @@
 </template>
 <script>
     var request = require('superagent');
+
     export default {
         name: 'chat-channel',
         data() {
             return {
+                api_token: php.api_token,
                 channel: {},
                 messages: [],
-                users: []
+                users: [],
+                message: null,
             }
         },
-        props: ['channelId'],
+        props: ['channelId','sidebarPosition'],
         methods: {
-            get_channel() {
-                var vm = this;
+            getChannel() {
                 request
                 .get('/api/v1/channels/' + this.channelId)
                 .end(function(err, res) {
-                    vm.channel = res.body;
-                });
+                    this.channel = res.body;
+                }.bind(this));
             },
-            get_users() {
-                var vm = this;
-                request
-                .get('/api/v1/channels/' + this.channelId + '/users')
-                .end(function(err, res) {
-                    vm.users = res.body;
-                });
-            },
-            get_messages() {
-                var vm = this;
+            getMessages() {
                 request
                 .get('/api/v1/channels/' + this.channelId + '/messages')
                 .end(function(err, res) {
-                    vm.messages = res.body;
-                });
+                    this.messages = res.body.data;
+                }.bind(this));
+            },
+            sendMessage() {
+                request
+                .post('/api/v1/channels/' + this.channelId + '/messages')
+                .set({
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + this.api_token
+                })
+                .send({ content: this.message })
+                .end(function(err, res) {
+                    console.log(res.body);
+                    this.message = null;
+                }.bind(this));
             }
         },
         created() {
-            this.get_channel();
-            this.get_users();
-            this.get_messages();
+            this.getChannel();
         }
     };
 </script>
 <style lang="scss" scoped>
     @import "../../sass/variables";
-    $chat_box_height: 50em;
-    .chat-view textarea,
+    $chat_box_height: 40em;
+    .chat-view input,
     .chat-user,
     .chat-message > .message {
         border: 1px $black solid;
@@ -111,8 +126,7 @@
         height: $chat_box_height;
         background: $ibox-content-bg;
     }
-    .chat-composer textarea {
-        border: 2px $black solid;
+    .chat-composer input {
         background-color: $gray;
         color: $text-color;
         resize: vertical;
@@ -123,7 +137,7 @@
         background: $gray;
         border:0px;
     }
-    .chat-view textarea:hover {
+    .chat-view input {
         border-color: $blue;
     }
 </style>

@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\User;
 use Illuminate\Http\Request;
 
-class ChannelUsersController extends Controller
+class ChannelsUsersController extends Controller
 {
     public function index(Request $request, $channel_id)
     {

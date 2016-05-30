@@ -78,7 +78,6 @@ class MatchesController extends Controller
         ]);
 
         DB::transaction(function() use ($role, $match) {
-            \Log::info(compact('role','match'));
             $match->save();
             $match->roles()->save($role);
         });

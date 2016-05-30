@@ -153,4 +153,13 @@ class User extends Authenticatable
     {
         return $this->losses()->count();
     }
+
+    public function generateApiToken()
+    {
+        do {
+            $api_token = str_random(60);
+        } while ( static::where('api_token', '=', $api_token)->exists() );
+
+        return $api_token;
+    }
 }
