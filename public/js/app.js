@@ -12025,7 +12025,7 @@ exports.default = {
         };
     },
 
-    props: ['channelId', 'sidebarPosition'],
+    props: ['channelId'],
     methods: {
         getChannel: function getChannel() {
             request.get('/api/v1/channels/' + this.channelId).end(function (err, res) {

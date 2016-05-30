@@ -77,21 +77,21 @@
                 message: null,
             }
         },
-        props: ['channelId','sidebarPosition'],
+        props: ['channelId'],
         methods: {
             getChannel() {
                 request
                 .get('/api/v1/channels/' + this.channelId)
                 .end(function(err, res) {
-                    this.channel = res.body;
-                }.bind(this));
+                    this.channel = res.body
+                }.bind(this))
             },
             getMessages() {
                 request
                 .get('/api/v1/channels/' + this.channelId + '/messages')
                 .end(function(err, res) {
-                    this.messages = res.body.data;
-                }.bind(this));
+                    this.messages = res.body.data
+                }.bind(this))
             },
             sendMessage() {
                 request
@@ -102,15 +102,15 @@
                 })
                 .send({ content: this.message })
                 .end(function(err, res) {
-                    console.log(res.body);
-                    this.message = null;
-                }.bind(this));
+                    console.log(res.body)
+                    this.message = null
+                }.bind(this))
             }
         },
         created() {
-            this.getChannel();
+            this.getChannel()
         }
-    };
+    }
 </script>
 <style lang="scss" scoped>
     @import "../../sass/variables";
@@ -135,7 +135,7 @@
     .chat-view .chat-avatar,
     .chat-view img {
         background: $gray;
-        border:0px;
+        border: 0px;
     }
     .chat-view input {
         border-color: $blue;
