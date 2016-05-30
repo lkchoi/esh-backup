@@ -13,20 +13,15 @@ class ChannelsMessagesController extends Controller
 {
     public function index(Channel $channel)
     {
-        if ($channel)
-        {
-            return $channel->messages;
-        }
-
-        return abort(404, 'Could not find channel');
+        return $channel->messages()->paginate();
     }
 
     public function store(CreateMessageRequest $request, Channel $channel)
     {
         $message = new Message($request->only('content'));
-        $message->user_id = auth()->id();
+        $message->user_id = auth('api')->id();
         $message->channel_id = $channel->id;
-
-        return $message;
+        $message->save();
+        return response()->json($message, 201);
     }
 }

@@ -10,6 +10,8 @@ class Message extends Model
 {
     use SoftDeletes;
 
+    protected $perPage = 10;
+
     protected $table = 'chat_messages';
 
     protected $fillable = [
@@ -19,6 +21,11 @@ class Message extends Model
 
     protected $dates = [
         'deleted_at'
+    ];
+
+    protected $casts = [
+        'channel_id' => 'int',
+        'user_id' => 'int',
     ];
 
     public function channel()

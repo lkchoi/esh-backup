@@ -13,8 +13,7 @@ class CreateMessageRequest extends Request
      */
     public function authorize()
     {
-        \Log::info(auth()->user());
-        return auth()->check();
+        return auth('api')->check();
     }
 
     /**
