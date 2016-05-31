@@ -29,6 +29,11 @@ class HomeController extends Controller
 
         $user = auth()->user();
         \JS::put([
+            'auth' => empty($user) ? null : [
+                'id' => $user->id,
+                'username' => $user->username,
+                'api_token' => $user->api_token,
+            ],
             'api_token' => $user ? $user->api_token : null
         ]);
 

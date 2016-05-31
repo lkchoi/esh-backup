@@ -1,21 +1,14 @@
 var server = require('http').Server();
 var io = require('socket.io')(server);
-var Redis = require('ioredis');
-var redis = new Redis();
-
-redis.subscribe('community-chat')
 
 // connection established
 io.on('connection', function(socket) {
-    console.log('user joined')
-})
 
-// message posted
-redis.on('message', function(channel, data) {
-    console.log(channel)
-    console.log(data)
-
-    io.emit('community-chat', data)
+    // message posted
+    socket.on('chat.message', function(message) {
+        console.log('new message: ', message);
+        io.emit('chat.message', message);
+    });
 });
 
 server.listen(3000, function() {

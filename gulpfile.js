@@ -10,13 +10,6 @@ elixir(function(mix) {
         .sass('app.scss', 'public/css/app.css')
         .scripts('plugins/*.js', 'public/js/plugins.js')
         .browserify('app.js', 'public/js/app.js')
-        .browserSync({
-            proxy: 'esportshero.app',
-            port: 4000,
-            ui: { port: 4001 }
-        });
-
-    // gulp.watch(['./socket.js'], ['server']); // FIXME
 })
 
 /**
@@ -29,7 +22,7 @@ gulp.task('server', function() {
     node = spawn('node', ['socket.js'], { stdio: 'inherit' });
     node.on('close', function(code) {
         if (code === 8) {
-            console.log('Error detected, waiting for cahnges...');
+            console.log('Error detected, waiting for changes...');
         }
     })
 })

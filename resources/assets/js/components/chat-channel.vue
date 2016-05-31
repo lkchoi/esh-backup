@@ -7,19 +7,8 @@
             <div class="row">
                 <div class="col-md-9">
                     <div class="chat-discussion">
-                        <div class="chat-message" v-for="message in messages">
-                            <div class="message-avatar"><!-- FIXME --></div>
-                            <div class="message">
-                                <a class="message-author" href="#">
-                                    {{ message.user.username }}
-                                </a>
-                                <span class="message-date">
-                                    {{ message.created_at }}
-                                </span>
-                                <span class="message-content">
-                                    {{ message.content }}
-                                </span>
-                            </div>
+                        <div class="chat-message" v-for="message in messages" track-by="$index">
+                            {{ message }}
                         </div>
                     </div>
                 </div>
@@ -40,7 +29,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <form class="chat-message-form" @submit.prevent="sendMessage()">
+                    <form class="chat-message-form" @submit.prevent="sendMessage()" v-if="api_token">
                         <div class="input-group">
                             <input
                             class="form-control"
@@ -65,6 +54,8 @@
 </template>
 <script>
     var request = require('superagent');
+    var io = require('socket.io-client');
+    var socket = io('http://esportshero.app:3000');
 
     export default {
         name: 'chat-channel',
@@ -75,6 +66,7 @@
                 messages: [],
                 users: [],
                 message: null,
+                auth: php.auth
             }
         },
         props: ['channelId'],
@@ -94,21 +86,20 @@
                 }.bind(this))
             },
             sendMessage() {
-                request
-                .post('/api/v1/channels/' + this.channelId + '/messages')
-                .set({
-                    'Accept': 'application/json',
-                    'Authorization': 'Bearer ' + this.api_token
-                })
-                .send({ content: this.message })
-                .end(function(err, res) {
-                    console.log(res.body)
-                    this.message = null
-                }.bind(this))
+                // broadcast to node server
+                socket.emit('chat.message', this.message)
+                this.message = null
             }
         },
         created() {
             this.getChannel()
+        },
+        ready() {
+            // listen for new messages
+            socket.on('chat.message', function(message) {
+                console.log('message received: ', message)
+                this.messages.push(message)
+            }.bind(this))
         }
     }
 </script>

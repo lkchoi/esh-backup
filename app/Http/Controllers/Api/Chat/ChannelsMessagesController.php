@@ -30,10 +30,10 @@ class ChannelsMessagesController extends Controller
         $message = new Message($request->only('content'));
         $message->user_id = auth('api')->id();
         $message->channel_id = $channel->id;
-        $message->save();
+        // $message->save(); // do not save message to db
 
         // broadcast event
-        event(new CreateMessageEvent($message));
+        // event(new CreateMessageEvent($message));
 
         // respond with 201
         return response()->json($message, 201);
