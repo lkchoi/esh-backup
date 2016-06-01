@@ -723,8 +723,7 @@ dd.project-people {
 
 .message-author {
   display: inline-block;
-  min-width: 5em;
-  margin-right: 1em;
+  margin: 0 1ex;
 }
 
 // .chat-discussion .chat-message:nth-child(2n+1) .message-avatar {
@@ -768,6 +767,7 @@ dd.project-people {
 .message-date {
   font-size: 10px;
   color: #888888;
+  margin-right: 1ex;
 }
 
 .message-content {

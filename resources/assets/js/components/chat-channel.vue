@@ -8,7 +8,18 @@
                 <div class="col-md-9">
                     <div class="chat-discussion">
                         <div class="chat-message" v-for="message in messages" track-by="$index">
-                            {{ message }}
+                            <!-- <div class="message-avatar"></div> -->
+                            <div class="message">
+                                <a class="message-author" href="#">
+                                    {{ message.user.username }}
+                                </a>
+                                <span class="message-date">
+                                    {{ message.created_at }}
+                                </span>
+                                <span class="message-content">
+                                    {{ message.content }}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -66,18 +77,23 @@
                 messages: [],
                 users: [],
                 message: null,
-                auth: php.auth
+                auth: php.auth,
             }
         },
         props: ['channelId'],
         methods: {
+
+            // get channel information and listen to channel
             getChannel() {
                 request
                 .get('/api/v1/channels/' + this.channelId)
                 .end(function(err, res) {
                     this.channel = res.body
+                    this.listenChannel()
                 }.bind(this))
             },
+
+            // get message history
             getMessages() {
                 request
                 .get('/api/v1/channels/' + this.channelId + '/messages')
@@ -85,21 +101,27 @@
                     this.messages = res.body.data
                 }.bind(this))
             },
+
+            // broadcast to node server
             sendMessage() {
-                // broadcast to node server
-                socket.emit('chat.message', this.message)
+                socket.emit(this.channel.slug, {
+                    user: this.auth,
+                    content: this.message
+                })
                 this.message = null
+            },
+
+            // listen for new messages
+            listenChannel() {
+                socket.on(this.channel.slug, function(message) {
+                    console.log(message)
+                    this.messages.push(message)
+                }.bind(this))
             }
         },
+
         created() {
             this.getChannel()
-        },
-        ready() {
-            // listen for new messages
-            socket.on('chat.message', function(message) {
-                console.log('message received: ', message)
-                this.messages.push(message)
-            }.bind(this))
         }
     }
 </script>
