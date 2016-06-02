@@ -40,7 +40,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <form class="chat-message-form" @submit.prevent="sendMessage()" v-if="api_token">
+                    <form class="chat-message-form" @submit.prevent="sendMessage" v-if="api_token">
                         <div class="input-group">
                             <input
                             class="form-control"
