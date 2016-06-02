@@ -19260,7 +19260,7 @@ exports.default = {
             api_token: php.api_token,
             channel: {},
             messages: [],
-            users: [],
+            users: {},
             message: null,
             auth: php.auth
         };
@@ -19299,25 +19299,45 @@ exports.default = {
 
         // listen for message post and user join/leave
         listenChannel: function listenChannel() {
+            // listen for "new messages", "user joined", "user left"
+            this.listenNewMessage();
+            this.listenUserJoined();
+            this.listenUserLeft();
 
-            // listen for "new message"
-            socket.on(this.channel.slug + ':new-message', function (message) {
-                this.messages.push(message);
-            }.bind(this));
+            socket.on(this.channel.slug + ':user-list', function (users) {
+                // TODO read and render "online users" list
+            });
 
-            // listen for "user joined"
-            socket.on(this.channel.slug + ':user-joined', function (user) {
-                this.users.$set(user.id, user); // key by user id for easy removal
-            }.bind(this));
-
-            // listen for "user left"
-            socket.on(this.channel.slug + ':user-left', function (user) {
-                this.users.$remove(user.id); // remove user by id
-            }.bind(this));
-
+            // announce "user joined"
             if (this.auth != null) {
                 socket.emit(this.channel.slug + ':user-joined', this.auth);
             }
+        },
+
+
+        // listen for "user joined"
+        listenUserJoined: function listenUserJoined() {
+            socket.on(this.channel.slug + ':user-joined', function (user) {
+                // add user to users list
+                this.$set('users[' + user.id + ']', user);
+            }.bind(this));
+        },
+
+
+        // listen for "user left"
+        listenUserLeft: function listenUserLeft() {
+            socket.on(this.channel.slug + ':user-left', function (user_id) {
+                // remove user to users list
+                this.$set('users[' + user_id + ']', null);
+            }.bind(this));
+        },
+
+
+        // lsiten for "new message"
+        listenNewMessage: function listenNewMessage() {
+            socket.on(this.channel.slug + ':new-message', function (message) {
+                this.messages.push(message);
+            }.bind(this));
         }
     },
 

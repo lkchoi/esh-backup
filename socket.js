@@ -13,7 +13,7 @@ var sockets = {}; // user_id: [socket_id, ..]
 
 // socket connection established
 io.on('connection', function(socket) {
-    // TODO emit complete online user list
+    // TODO emit complete "online users" list
     // io.emit('community-chat:user-list', ); // WIP
 
     // message posted from client
