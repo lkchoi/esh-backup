@@ -5,11 +5,16 @@ var _ = require('underscore'); // CHECKME
 
 // user:socket = 1:n
 // e.g., one user can have multiple tabs open, multiple devices
-var users = {};   // socket id: user id
-var sockets = {}; // user id: [socket id, ..]
+
+// FIXME track user object not just user id (so user list can be )
+var users = {};   // user_id: user
+var user_ids = {}; // socket_id: user_id
+var sockets = {}; // user_id: [socket_id, ..]
 
 // socket connection established
 io.on('connection', function(socket) {
+    // TODO emit complete online user list
+    // io.emit('community-chat:user-list', ); // WIP
 
     // message posted from client
     socket.on('community-chat:new-message', function(message) {
@@ -20,7 +25,7 @@ io.on('connection', function(socket) {
     // user joined
     socket.on('community-chat:user-joined', function(user) {
         if ( user != null ) {
-            users[socket.id] = user.id;
+            user_ids[socket.id] = user.id;
 
             if ( sockets[user.id] == null ) {
                 sockets[user.id] = [ socket.id ]
@@ -30,21 +35,19 @@ io.on('connection', function(socket) {
 
             io.emit('community-chat:user-joined', user);
 
-            console.log('connected');
-            console.log({ users: users, sockets: sockets });
+            // console.log('user-joined: ', { user_ids: user_ids, sockets: sockets });
         }
     });
 
     // socket disconnected
     // FIXME debounce for a few seconds to prevent "thrash" on page refresh
     socket.on('disconnect', function() {
-        console.log('disconnected');
 
         // 1. get the user id by socket id
-        var user_id = users[socket.id];
+        var user_id = user_ids[socket.id];
 
         // 2. remove the socket
-        delete users[socket.id];
+        delete user_ids[socket.id];
 
         // 3. remove the socket from user's sockets
         sockets[user_id] = _.without(sockets[user_id], socket.id);
@@ -59,7 +62,7 @@ io.on('connection', function(socket) {
             io.emit('community-chat:user-left', user_id);
         }
 
-        console.log({ users: users, sockets: sockets });
+        // console.log('user-left: ', { user_ids: user_ids, sockets: sockets });
     })
 });
 
