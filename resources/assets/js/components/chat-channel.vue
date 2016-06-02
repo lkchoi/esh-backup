@@ -13,7 +13,7 @@
                                 <a class="message-author" href="#">
                                     {{ message.user.username }}
                                 </a>
-                                <span class="message-date">
+                                <span class="message-date pull-right">
                                     {{ message.created_at }}
                                 </span>
                                 <span class="message-content">
@@ -26,7 +26,7 @@
                 <div class="col-md-3 hidden-sm hidden-xs">
                     <div class="chat-users">
                         <div class="users-list">
-                            <div class="chat-user" v-for="user in users">
+                            <div class="chat-user" v-for="user in users" v-if="user!=null">
                                 <div class="chat-avatar"><!-- FIXME --></div>
                                 <div class="chat-user-name">
                                     <a href="#">
@@ -104,19 +104,34 @@
 
             // broadcast to node server
             sendMessage() {
-                socket.emit(this.channel.slug, {
+                socket.emit(this.channel.slug + ':new-message', {
                     user: this.auth,
                     content: this.message
                 })
                 this.message = null
             },
 
-            // listen for new messages
+            // listen for message post and user join/leave
             listenChannel() {
-                socket.on(this.channel.slug, function(message) {
-                    console.log(message)
+
+                // listen for "new message"
+                socket.on(this.channel.slug + ':new-message', function(message) {
                     this.messages.push(message)
                 }.bind(this))
+
+                // listen for "user joined"
+                socket.on(this.channel.slug + ':user-joined', function(user) {
+                    this.users.$set(user.id, user) // key by user id for easy removal
+                }.bind(this))
+
+                // listen for "user left"
+                socket.on(this.channel.slug + ':user-left', function(user) {
+                    this.users.$remove(user.id) // remove user by id
+                }.bind(this))
+
+                if (this.auth != null) {
+                    socket.emit(this.channel.slug + ':user-joined', this.auth)
+                }
             }
         },
 

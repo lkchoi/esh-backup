@@ -19289,7 +19289,7 @@ exports.default = {
 
         // broadcast to node server
         sendMessage: function sendMessage() {
-            socket.emit(this.channel.slug, {
+            socket.emit(this.channel.slug + ':new-message', {
                 user: this.auth,
                 content: this.message
             });
@@ -19297,12 +19297,27 @@ exports.default = {
         },
 
 
-        // listen for new messages
+        // listen for message post and user join/leave
         listenChannel: function listenChannel() {
-            socket.on(this.channel.slug, function (message) {
-                console.log(message);
+
+            // listen for "new message"
+            socket.on(this.channel.slug + ':new-message', function (message) {
                 this.messages.push(message);
             }.bind(this));
+
+            // listen for "user joined"
+            socket.on(this.channel.slug + ':user-joined', function (user) {
+                this.users.$set(user.id, user); // key by user id for easy removal
+            }.bind(this));
+
+            // listen for "user left"
+            socket.on(this.channel.slug + ':user-left', function (user) {
+                this.users.$remove(user.id); // remove user by id
+            }.bind(this));
+
+            if (this.auth != null) {
+                socket.emit(this.channel.slug + ':user-joined', this.auth);
+            }
         }
     },
 
@@ -19311,7 +19326,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"ibox chat-view\" _v-46ed6f36=\"\">\n    <div class=\"ibox-title\" _v-46ed6f36=\"\">\n        <h5 _v-46ed6f36=\"\">{{ channel.name }}</h5>\n    </div>\n    <div class=\"ibox-content\" _v-46ed6f36=\"\">\n        <div class=\"row\" _v-46ed6f36=\"\">\n            <div class=\"col-md-9\" _v-46ed6f36=\"\">\n                <div class=\"chat-discussion\" _v-46ed6f36=\"\">\n                    <div class=\"chat-message\" v-for=\"message in messages\" track-by=\"$index\" _v-46ed6f36=\"\">\n                        <!-- <div class=\"message-avatar\"></div> -->\n                        <div class=\"message\" _v-46ed6f36=\"\">\n                            <a class=\"message-author\" href=\"#\" _v-46ed6f36=\"\">\n                                {{ message.user.username }}\n                            </a>\n                            <span class=\"message-date\" _v-46ed6f36=\"\">\n                                {{ message.created_at }}\n                            </span>\n                            <span class=\"message-content\" _v-46ed6f36=\"\">\n                                {{ message.content }}\n                            </span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <div class=\"col-md-3 hidden-sm hidden-xs\" _v-46ed6f36=\"\">\n                <div class=\"chat-users\" _v-46ed6f36=\"\">\n                    <div class=\"users-list\" _v-46ed6f36=\"\">\n                        <div class=\"chat-user\" v-for=\"user in users\" _v-46ed6f36=\"\">\n                            <div class=\"chat-avatar\" _v-46ed6f36=\"\"><!-- FIXME --></div>\n                            <div class=\"chat-user-name\" _v-46ed6f36=\"\">\n                                <a href=\"#\" _v-46ed6f36=\"\">\n                                    {{ user.username }}\n                                </a>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n        <div class=\"row\" _v-46ed6f36=\"\">\n            <div class=\"col-lg-12\" _v-46ed6f36=\"\">\n                <form class=\"chat-message-form\" @submit.prevent=\"sendMessage()\" v-if=\"api_token\" _v-46ed6f36=\"\">\n                    <div class=\"input-group\" _v-46ed6f36=\"\">\n                        <input class=\"form-control\" name=\"message\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\" v-model=\"message\" _v-46ed6f36=\"\">\n                        <div class=\"input-group-btn\" _v-46ed6f36=\"\">\n                            <button type=\"submit\" class=\"btn btn-primary\" _v-46ed6f36=\"\">\n                                Send\n                            </button>\n                        </div>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"ibox chat-view\" _v-46ed6f36=\"\">\n    <div class=\"ibox-title\" _v-46ed6f36=\"\">\n        <h5 _v-46ed6f36=\"\">{{ channel.name }}</h5>\n    </div>\n    <div class=\"ibox-content\" _v-46ed6f36=\"\">\n        <div class=\"row\" _v-46ed6f36=\"\">\n            <div class=\"col-md-9\" _v-46ed6f36=\"\">\n                <div class=\"chat-discussion\" _v-46ed6f36=\"\">\n                    <div class=\"chat-message\" v-for=\"message in messages\" track-by=\"$index\" _v-46ed6f36=\"\">\n                        <!-- <div class=\"message-avatar\"></div> -->\n                        <div class=\"message\" _v-46ed6f36=\"\">\n                            <a class=\"message-author\" href=\"#\" _v-46ed6f36=\"\">\n                                {{ message.user.username }}\n                            </a>\n                            <span class=\"message-date pull-right\" _v-46ed6f36=\"\">\n                                {{ message.created_at }}\n                            </span>\n                            <span class=\"message-content\" _v-46ed6f36=\"\">\n                                {{ message.content }}\n                            </span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <div class=\"col-md-3 hidden-sm hidden-xs\" _v-46ed6f36=\"\">\n                <div class=\"chat-users\" _v-46ed6f36=\"\">\n                    <div class=\"users-list\" _v-46ed6f36=\"\">\n                        <div class=\"chat-user\" v-for=\"user in users\" v-if=\"user!=null\" _v-46ed6f36=\"\">\n                            <div class=\"chat-avatar\" _v-46ed6f36=\"\"><!-- FIXME --></div>\n                            <div class=\"chat-user-name\" _v-46ed6f36=\"\">\n                                <a href=\"#\" _v-46ed6f36=\"\">\n                                    {{ user.username }}\n                                </a>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n        <div class=\"row\" _v-46ed6f36=\"\">\n            <div class=\"col-lg-12\" _v-46ed6f36=\"\">\n                <form class=\"chat-message-form\" @submit.prevent=\"sendMessage()\" v-if=\"api_token\" _v-46ed6f36=\"\">\n                    <div class=\"input-group\" _v-46ed6f36=\"\">\n                        <input class=\"form-control\" name=\"message\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\" v-model=\"message\" _v-46ed6f36=\"\">\n                        <div class=\"input-group-btn\" _v-46ed6f36=\"\">\n                            <button type=\"submit\" class=\"btn btn-primary\" _v-46ed6f36=\"\">\n                                Send\n                            </button>\n                        </div>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
