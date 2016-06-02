@@ -8,6 +8,7 @@
     "laravel-elixir-vueify": "^1.0.3",
     "moment-timezone": "^0.5.4",
     "superagent": "^1.8.3",
+    "underscore": "^1.8.3",
     "vue": "^1.0.24"
   },
   "dependencies": {
