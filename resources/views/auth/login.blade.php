@@ -9,7 +9,7 @@
     <form class="m-t" role="form" action="/login" method='POST'>
         {!! csrf_field() !!}
         <div class="form-group">
-            <input type="email" class="form-control" placeholder="Email" name="email" required="">
+            <input type="email" class="form-control" placeholder="Email" name="email" required="required" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
         </div>
         <div class="form-group">
             <input type="password" class="form-control" placeholder="Password" name="password" required="">
