@@ -43,7 +43,8 @@ class User extends Authenticatable
         'email',
         'password',
         'remember_token',
-        'updated_at'
+        'updated_at',
+        'api_token',
     ];
 
     protected $casts = [

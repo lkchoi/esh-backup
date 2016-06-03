@@ -7,13 +7,13 @@
             <div class="row">
                 <div class="col-md-9">
                     <div class="chat-discussion">
-                        <div class="chat-message" v-for="message in messages">
-                            <div class="message-avatar"><!-- FIXME --></div>
+                        <div class="chat-message" v-for="message in messages" track-by="$index">
+                            <!-- <div class="message-avatar"></div> -->
                             <div class="message">
                                 <a class="message-author" href="#">
                                     {{ message.user.username }}
                                 </a>
-                                <span class="message-date">
+                                <span class="message-date pull-right">
                                     {{ message.created_at }}
                                 </span>
                                 <span class="message-content">
@@ -26,7 +26,7 @@
                 <div class="col-md-3 hidden-sm hidden-xs">
                     <div class="chat-users">
                         <div class="users-list">
-                            <div class="chat-user" v-for="user in users">
+                            <div class="chat-user" v-for="user in users" v-if="user!=null">
                                 <div class="chat-avatar"><!-- FIXME --></div>
                                 <div class="chat-user-name">
                                     <a href="#">
@@ -40,7 +40,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <form class="chat-message-form" @submit.prevent="sendMessage()">
+                    <form class="chat-message-form" @submit.prevent="sendMessage" v-if="api_token">
                         <div class="input-group">
                             <input
                             class="form-control"
@@ -65,6 +65,8 @@
 </template>
 <script>
     var request = require('superagent');
+    var io = require('socket.io-client');
+    var socket = io('http://esportshero.app:3000');
 
     export default {
         name: 'chat-channel',
@@ -73,48 +75,80 @@
                 api_token: php.api_token,
                 channel: {},
                 messages: [],
-                users: [],
+                users: {},
                 message: null,
+                auth: php.auth,
             }
         },
-        props: ['channelId','sidebarPosition'],
+        props: ['channelId'],
         methods: {
-            getChannel() {
+
+            // get channel information and listen to channel
+            connectToChannel() {
                 request
                 .get('/api/v1/channels/' + this.channelId)
                 .end(function(err, res) {
-                    this.channel = res.body;
-                }.bind(this));
+                    this.channel = res.body
+                    this.listenChannel()
+                }.bind(this))
             },
+
+            // get message history
             getMessages() {
                 request
                 .get('/api/v1/channels/' + this.channelId + '/messages')
                 .end(function(err, res) {
-                    this.messages = res.body.data;
-                }.bind(this));
+                    this.messages = res.body.data
+                }.bind(this))
             },
+
+            // broadcast to node server
             sendMessage() {
-                request
-                .post('/api/v1/channels/' + this.channelId + '/messages')
-                .set({
-                    'Accept': 'application/json',
-                    'Authorization': 'Bearer ' + this.api_token
+                socket.emit(this.channel.slug + ':new-message', {
+                    user: this.auth,
+                    content: this.message
                 })
-                .send({ content: this.message })
-                .end(function(err, res) {
-                    console.log(res.body);
-                    this.message = null;
-                }.bind(this));
+                this.message = null
+            },
+
+            // listen for message post and user join/leave
+            listenChannel() {
+
+                // listen for "new messages"
+                this.listenNewMessage();
+
+                // listen for "user list" updated
+                this.listenUserList();
+
+                // announce "join"
+                if (this.auth != null) {
+                    socket.emit(this.channel.slug + ':join', this.auth)
+                }
+            },
+
+            // lsiten for "new message"
+            listenNewMessage() {
+                socket.on(this.channel.slug + ':new-message', function(message) {
+                    this.messages.push(message)
+                }.bind(this))
+            },
+
+            // listen for "user list" update
+            listenUserList() {
+                socket.on(this.channel.slug + ':user-list', function(users) {
+                    this.$set('users', users)
+                }.bind(this))
             }
         },
+
         created() {
-            this.getChannel();
+            this.connectToChannel()
         }
-    };
+    }
 </script>
 <style lang="scss" scoped>
     @import "../../sass/variables";
-    $chat_box_height: 40em;
+    $chat_box_height: 60em;
     .chat-view input,
     .chat-user,
     .chat-message > .message {
@@ -135,7 +169,7 @@
     .chat-view .chat-avatar,
     .chat-view img {
         background: $gray;
-        border:0px;
+        border: 0px;
     }
     .chat-view input {
         border-color: $blue;

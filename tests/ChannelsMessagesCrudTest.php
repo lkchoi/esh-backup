@@ -64,7 +64,9 @@ class ChannelsMessagesCrudTest extends TestCase
     {
         // fixtures
         $user = factory(User::class)->create();
-        $channel = factory(Channel::class)->create();
+        $channel = Channel::create([
+            'name' => 'Community Chat'
+        ]);
 
         $this->seeInDatabase('users', ['email' => $user->email]);
 
@@ -81,6 +83,11 @@ class ChannelsMessagesCrudTest extends TestCase
 
         // parse the response
         $this->assertEquals($content, $json['content']);
+    }
+
+    public function testCreateMessageBroadcastsEvent()
+    {
+        $this->markTestIncomplete();
     }
 
 }

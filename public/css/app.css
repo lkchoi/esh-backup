@@ -9540,7 +9540,7 @@ dd.project-people {
   padding: 0; }
 
 .chat-message {
-  padding: 10px 20px; }
+  padding: 5px 10px; }
 
 .message-avatar {
   height: 48px;
@@ -9549,43 +9549,26 @@ dd.project-people {
   border-radius: 4px;
   margin-top: 1px; }
 
-.chat-discussion .chat-message:nth-child(2n+1) .message-avatar {
-  float: left;
-  margin-right: 10px; }
-
-.chat-discussion .chat-message:nth-child(2n) .message-avatar {
-  float: right;
-  margin-left: 10px; }
+.message-author {
+  display: inline-block;
+  margin: 0 1ex; }
 
 .message {
   background-color: #fff;
   border: 1px solid #e7eaec;
   text-align: left;
   display: block;
-  padding: 10px 20px;
+  padding: 5px 10px;
   position: relative;
   border-radius: 4px; }
 
-.chat-discussion .chat-message:nth-child(2n+1) .message-date {
-  float: right; }
-
-.chat-discussion .chat-message:nth-child(2n) .message-date {
-  float: left; }
-
-.chat-discussion .chat-message:nth-child(2n+1) .message {
-  text-align: left;
-  margin-left: 55px; }
-
-.chat-discussion .chat-message:nth-child(2n) .message {
-  text-align: right;
-  margin-right: 55px; }
-
 .message-date {
   font-size: 10px;
-  color: #888888; }
+  color: #888888;
+  margin-right: 1ex; }
 
 .message-content {
-  display: block; }
+  display: inline-block; }
 
 .chat-discussion {
   background: #eee;
