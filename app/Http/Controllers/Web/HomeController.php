@@ -18,7 +18,7 @@ class HomeController extends Controller
     public function index()
     {
         $matches = Match::closed()
-            ->with(['game', 'roles.user'])
+            ->with(['game', 'teams.user'])
             ->orderBy('created_at','desc')
             ->limit(10)
             ->get();

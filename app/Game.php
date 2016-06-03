@@ -27,14 +27,6 @@ class Game extends Model
         );
     }
 
-    public function characters()
-    {
-        return $this->hasMany(
-            'App\Character',
-            'game_id'
-        );
-    }
-
     public function getLogoAttribute()
     {
         return $this->images()->first()->url;
