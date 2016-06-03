@@ -84,7 +84,7 @@
         methods: {
 
             // get channel information and listen to channel
-            getChannel() {
+            connectToChannel() {
                 request
                 .get('/api/v1/channels/' + this.channelId)
                 .end(function(err, res) {
@@ -113,35 +113,17 @@
 
             // listen for message post and user join/leave
             listenChannel() {
-                // listen for "new messages", "user joined", "user left"
+
+                // listen for "new messages"
                 this.listenNewMessage();
-                this.listenUserJoined();
-                this.listenUserLeft();
 
-                socket.on(this.channel.slug + ':user-list', function(users) {
-                    // TODO read and render "online users" list
-                })
+                // listen for "user list" updated
+                this.listenUserList();
 
-                // announce "user joined"
+                // announce "join"
                 if (this.auth != null) {
-                    socket.emit(this.channel.slug + ':user-joined', this.auth)
+                    socket.emit(this.channel.slug + ':join', this.auth)
                 }
-            },
-
-            // listen for "user joined"
-            listenUserJoined() {
-                socket.on(this.channel.slug + ':user-joined', function(user) {
-                    // add user to users list
-                    this.$set('users[' + user.id + ']', user);
-                }.bind(this))
-            },
-
-            // listen for "user left"
-            listenUserLeft() {
-                socket.on(this.channel.slug + ':user-left', function(user_id) {
-                    // remove user to users list
-                    this.$set('users[' + user_id + ']', null);
-                }.bind(this))
             },
 
             // lsiten for "new message"
@@ -149,17 +131,24 @@
                 socket.on(this.channel.slug + ':new-message', function(message) {
                     this.messages.push(message)
                 }.bind(this))
+            },
+
+            // listen for "user list" update
+            listenUserList() {
+                socket.on(this.channel.slug + ':user-list', function(users) {
+                    this.$set('users', users)
+                }.bind(this))
             }
         },
 
         created() {
-            this.getChannel()
+            this.connectToChannel()
         }
     }
 </script>
 <style lang="scss" scoped>
     @import "../../sass/variables";
-    $chat_box_height: 40em;
+    $chat_box_height: 60em;
     .chat-view input,
     .chat-user,
     .chat-message > .message {

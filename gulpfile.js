@@ -9,11 +9,12 @@ elixir(function(mix) {
         .sass('app.scss', 'public/css/app.css')
         .scripts('plugins/*.js', 'public/js/plugins.js')
         .browserify('app.js', 'public/js/app.js')
-        .browserSync({
-            proxy: 'esportshero.app',
-            port: 4000,
-            ui: { port: 4001 }
-        })
+        .browserify('home.js', 'public/js/home.js')
+        // .browserSync({
+        //     proxy: 'esportshero.app',
+        //     port: 4000,
+        //     ui: { port: 4001 }
+        // })
     // gulp.watch(['./socket.js'], ['server']);
 })
 
