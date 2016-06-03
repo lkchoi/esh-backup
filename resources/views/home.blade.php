@@ -13,6 +13,7 @@
 @stop
 
 @section('tail')
+@parent
 <script src="/js/home.js"></script>
 <script src="/js/plugins/peity/jquery.peity.min.js"></script>
 @stop
