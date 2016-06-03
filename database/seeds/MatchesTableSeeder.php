@@ -1,6 +1,7 @@
 <?php
 
-use App\Role;
+use App\Match;
+use App\Team;
 use Illuminate\Database\Seeder;
 
 class MatchesTableSeeder extends Seeder
@@ -12,18 +13,18 @@ class MatchesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory('App\Match', 150)->create()->each(function ($match) {
-            $winner = factory(App\Role::class)->make();
-            $loser = factory(App\Role::class)->make();
-            $winner->result = Role::RESULT_WIN;
-            $loser->result = Role::RESULT_LOSS;
-            $match->roles()->saveMany([$winner, $loser]);
+        factory(Match::class, 150)->create()->each(function ($match) {
+            $winner = factory(App\Team::class)->make();
+            $loser = factory(App\Team::class)->make();
+            $winner->result = Team::RESULT_WIN;
+            $loser->result = Team::RESULT_LOSS;
+            $match->teams()->saveMany([$winner, $loser]);
         });
 
-        factory('App\Match', 10)->create()->each(function ($match) {
-            $role = factory(App\Role::class)->make();
-            $role->result = Role::RESULT_TBD;
-            $match->roles()->saveMany([$role]);
+        factory(Match::class, 10)->create()->each(function ($match) {
+            $team = factory(App\Team::class)->make();
+            $team->result = Team::RESULT_TBD;
+            $match->teams()->saveMany([$team]);
         });
     }
 }

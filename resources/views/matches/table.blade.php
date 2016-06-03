@@ -26,7 +26,7 @@
                     >
                 </div>
                 @else
-                {{ $match->roles()->first()->user->username }}
+                {{ $match->roles()->teams()->user->username }}
                 @endif
             </td>
             <td class="versus">

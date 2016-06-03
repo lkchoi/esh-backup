@@ -14,14 +14,14 @@ class GamesTableSeeder extends Seeder
     {
         $games = [
             [
-                'name' => 'Heroes of Newerth',
-                'abbreviation' => 'HON',
-                'character_term' => 'hero'
+                'name' => 'Hearthstone',
+                'abbreviation' => 'HS',
+                'character_term' => 'deck'
             ],
             [
                 'name' => 'League of Legends',
                 'abbreviation' => 'LOL',
-                'character_term' => 'hero'
+                'character_term' => 'champion'
             ],
             [
                 'name' => 'Dota 2',

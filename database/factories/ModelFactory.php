@@ -28,14 +28,12 @@ $factory->define(App\Match::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Role::class, function (Faker\Generator $faker) {
+$factory->define(App\Team::class, function (Faker\Generator $faker) {
     $matches = App\Match::count();
     $users = App\User::count();
-    $characters = App\Character::count();
     return [
         'match_id' => $faker->numberBetween(1, $matches),
         'user_id' => $faker->numberBetween(1, $users),
-        'character_id' => $faker->numberBetween(1, $characters),
     ];
 });
 

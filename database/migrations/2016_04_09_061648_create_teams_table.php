@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRolesTable extends Migration
+class CreateTeamsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,20 +12,22 @@ class CreateRolesTable extends Migration
      */
     public function up()
     {
-        Schema::create('roles', function ($table) {
+        Schema::create('teams', function ($table) {
             $table->increments('id');
+
+            // slugify team name
+            $table->string('name');
+            $table->string('slug');
 
             $table->integer('match_id')->unsigned();
             $table->integer('user_id')->unsigned();
-            $table->integer('character_id')->unsigned()->nullable();
             $table->integer('result')->unsigned();
-            
+
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('match_id')->references('id')->on('matches');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('character_id')->references('id')->on('characters');
         });
     }
 
@@ -36,11 +38,10 @@ class CreateRolesTable extends Migration
      */
     public function down()
     {
-        Schema::table('roles', function($table) {
-            $table->dropForeign('roles_match_id_foreign');
-            $table->dropForeign('roles_user_id_foreign');
-            $table->dropForeign('roles_character_id_foreign');
+        Schema::table('teams', function($table) {
+            $table->dropForeign('teams_match_id_foreign');
+            $table->dropForeign('teams_user_id_foreign');
         });
-        Schema::drop('roles');
+        Schema::drop('teams');
     }
 }

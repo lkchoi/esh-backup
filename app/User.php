@@ -5,7 +5,7 @@ namespace App;
 use App\Chat\Message;
 use App\Match;
 use App\Repositories\HasRepositories;
-use App\Role;
+use App\Team;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
 
@@ -60,25 +60,25 @@ class User extends Authenticatable
     ];
 
     /**
-     * Relation: User has many roles
+     * Relation: User has many teams
      * @return Illuminate\Database\Eloquent\Relations\Relation
      */
-    public function roles()
+    public function teams()
     {
         return $this->hasMany(
-            'App\Role',
+            'App\Team',
             'user_id'
         );
     }
 
     /**
-     * Pseudo-Relation: User has many Matches through Roles
+     * Pseudo-Relation: User has many Matches through Teams
      * @return Illuminate\Database\Eloquent\Relations\Relation
      */
     public function matches()
     {
-        return $this->roles()
-            ->join('matches', 'roles.match_id', '=', 'matches.id');
+        return $this->teams()
+            ->join('matches', 'teams.match_id', '=', 'matches.id');
     }
     public function getMatchesAttribute()
     {
@@ -86,12 +86,12 @@ class User extends Authenticatable
     }
 
     /**
-     * Pseudo-Relation: User has many wins (Roles)
+     * Pseudo-Relation: User has many wins (Teams)
      * @return Illuminate\Support\Collection
      */
     public function wins()
     {
-        return $this->roles()->won();
+        return $this->teams()->won();
     }
     public function getWinsAttribute()
     {
@@ -99,12 +99,12 @@ class User extends Authenticatable
     }
 
     /**
-     * Pseudo-Relation: User has many losses (Roles)
+     * Pseudo-Relation: User has many losses (Teams)
      * @return Illuminate\Support\Collection
      */
     public function losses()
     {
-        return $this->roles()->lost();
+        return $this->teams()->lost();
     }
     public function getLossesAttribute()
     {
@@ -118,7 +118,7 @@ class User extends Authenticatable
     public function earnings()
     {
         return $this->wins()
-            ->join('matches', 'matches.id', '=', 'roles.match_id')
+            ->join('matches', 'matches.id', '=', 'teams.match_id')
             ->sum('matches.payout');
     }
 

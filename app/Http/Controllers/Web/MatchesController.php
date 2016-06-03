@@ -7,7 +7,7 @@ use App\Game;
 use App\Http\Requests;
 use App\Http\Requests\CreateMatchRequest;
 use App\Match;
-use App\Role;
+use App\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -66,10 +66,10 @@ class MatchesController extends Controller
      */
     public function store(CreateMatchRequest $request)
     {
-        $role = new Role([
+        $team = new Team([
             'character_id' => $request->character_id ?: null,
             'user_id' => $request->user()->id,
-            'result' => Role::RESULT_TBD,
+            'result' => Team::RESULT_TBD,
         ]);
 
         $match = new Match([
@@ -77,9 +77,9 @@ class MatchesController extends Controller
             'payout' => $request->payout,
         ]);
 
-        DB::transaction(function() use ($role, $match) {
+        DB::transaction(function() use ($team, $match) {
             $match->save();
-            $match->roles()->save($role);
+            $match->teams()->save($team);
         });
 
         return redirect("/matches/{$match->id}");
@@ -93,7 +93,7 @@ class MatchesController extends Controller
      */
     public function show($id)
     {
-        $match = Match::with('roles.user')->find($id);
+        $match = Match::with('teams.user')->find($id);
     }
 
     /**

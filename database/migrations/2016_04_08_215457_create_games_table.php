@@ -14,6 +14,13 @@ class CreateGamesTable extends Migration
     {
         Schema::create('games', function($table) {
             $table->increments('id');
+            $table->enum('type', [
+                'MOBA', // multiplayer online battle arena
+                'TCG',  // trading card game
+                'FPS',  // first-person shooter
+                'RTS',  // real-time strategy
+                'FGC',  // fighting game community
+            ]);
             $table->string('name');
             $table->string('abbreviation');
             $table->string('slug');

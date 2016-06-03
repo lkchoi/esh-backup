@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Role;
+use App\Team;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -25,10 +25,10 @@ class Match extends Model
         );
     }
 
-    public function roles()
+    public function teams()
     {
         return $this->hasMany(
-            'App\Role',
+            'App\Team',
             'match_id'
         );
     }
@@ -36,17 +36,17 @@ class Match extends Model
     public function winner()
     {
         return $this->hasOne(
-            'App\Role',
+            'App\Team',
             'match_id'
-        )->where('result', '=', Role::RESULT_WIN);
+        )->where('result', '=', Team::RESULT_WIN);
     }
 
     public function loser()
     {
         return $this->hasOne(
-            'App\Role',
+            'App\Team',
             'match_id'
-        )->where('result', '=', ROLE::RESULT_LOSS);
+        )->where('result', '=', Team::RESULT_LOSS);
     }
 
     public function getAmountAttribute()
@@ -56,17 +56,17 @@ class Match extends Model
 
     public function scopeClosed($query)
     {
-        $role_count_subquery = DB::raw(
-            '(select count(*) from `roles` where `roles`.`match_id`=`matches`.`id`)'
+        $team_count_subquery = DB::raw(
+            '(select count(*) from `teams` where `teams`.`match_id`=`matches`.`id`)'
         );
-        return $query->where($role_count_subquery, '>', 1);
+        return $query->where($team_count_subquery, '>', 1);
     }
 
     public function scopeOpen($query)
     {
-        $role_count_subquery = DB::raw(
-            '(select count(*) from `roles` where `roles`.`match_id`=`matches`.`id`)'
+        $team_count_subquery = DB::raw(
+            '(select count(*) from `teams` where `teams`.`match_id`=`matches`.`id`)'
         );
-        return $query->where($role_count_subquery, '<', 2);
+        return $query->where($team_count_subquery, '<', 2);
     }
 }
