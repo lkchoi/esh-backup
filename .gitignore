@@ -4,5 +4,7 @@
 Homestead.yaml
 Homestead.json
 .env
+.env.testing
 .vagrant/
-*.env.testing
+*.sublime-project
+*.sublime-workspace
